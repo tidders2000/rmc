@@ -14,21 +14,34 @@
   <div class="hero-text">
     <h1>RATE MY CROWD</h1>
     
-                     <form action="" method="post" novalidate>
+                     <form action="" method="post">
                 {{ form.hidden_tag() }}
                 
-                <div class="col s8 offset s1 form">
+                <div class="input-text">
                     {{ form.username.label }}<br> {{ form.username(size=32) }}
                 </div>
-                 <div class="col s8 offset s1 form">
+                 <div class="input-text">
                     {{ form.password.label }}<br> {{ form.password(size=32) }}
-                  </div>>
-                <div class="col s8 offset s8 form">
-                    {{ form.remember_me() }} {{ form.remember_me.label }}
+                  </div>
+                  
+                  <div class="switch">
+                        <span>Remember me</span><br>
+                    <label>
+                     
+                      No
+                      
+                      <input type="checkbox"id="remember_me"name="remember_me" >
+                     
+                      <span class="lever"></span>
+                      Yes
+                    </label>
+                  </div>
+               
+                <div class="input-submit">
+                    <input type="submit" value="Submit" class="button"></div><br>
+                 <a href="">Not a Member?</a>
                 </div>
-                <div class="col s8 offset s8 form">
-                    {{ form.submit() }}
-                </div>
+               
             </form>
           
   </div>

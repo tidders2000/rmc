@@ -48,8 +48,28 @@ nav {
 
 /*............. login..............   */
 
+.input-text label{
+    font-family: sans-serif;
+    font-size: 30px;
+    color:orange;
+}
 
-.form{
+.input-text input{
+    color:white;
+}
+
+.button{
     background-color: orange;
-    color: white;
+    width:100px;
+    height:35px;
+    color:white;
+    font-size: 20px;
+    border-radius:5px;
+    margin-top:10px;
+    
+}
+
+.button:hover{
+    background-color: white;
+    color:orange;
 }
