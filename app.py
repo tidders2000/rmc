@@ -25,8 +25,12 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         flash('login requested for user{} remember_me={}'.format(form.username.data, form.remember_me.data))
-        return redirect('/ammend_user')
+        return redirect('/first_page')
     return render_template('index.html', form=form)
+    
+@app.route('/first_page')
+def first_page():
+    return render_template('first_page.html')
 
 @app.route('/ammend_user')
 def get_tasks():
