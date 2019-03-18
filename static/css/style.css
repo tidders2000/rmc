@@ -1,0 +1,18 @@
+nav {
+  background-color: transparent;
+  box-shadow: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+  
+
+}
+
+.face{
+    font-size: 20rem;
+}
+body{
+    background-color: #F6FABC;
+}
