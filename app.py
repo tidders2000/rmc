@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, redirect, request, url_for, request
+from flask import Flask, render_template, redirect, request, url_for, request, flash
 import pymysql
 from config import Config
 from forms import LoginForm
@@ -20,10 +20,13 @@ connection = pymysql.connect(host='localhost',
                              db='crowd')
 
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 def login():
     form = LoginForm()
-    return render_template('index.html', title='Sign In', form=form)
+    if form.validate_on_submit():
+        flash('login requested for user{} remember_me={}'.format(form.username.data, form.remember_me.data))
+        return redirect('/ammend_user')
+    return render_template('index.html', form=form)
 
 @app.route('/ammend_user')
 def get_tasks():
