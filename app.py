@@ -1,11 +1,16 @@
 import os
-import pymysql
 from flask import Flask, render_template, redirect, request, url_for, request
+import pymysql
+from config import Config
+from forms import LoginForm
+
+
 
 
 
 app = Flask(__name__)
 
+app.config['SECRET_KEY'] = 'heffalump_34'
 username = os.getenv('C9_USER')
 
 # Connect to the database
@@ -16,6 +21,10 @@ connection = pymysql.connect(host='localhost',
 
 
 @app.route('/')
+def login():
+    form = LoginForm()
+    return render_template('index.html', title='Sign In', form=form)
+
 @app.route('/ammend_user')
 def get_tasks():
     

@@ -12,8 +12,9 @@
 <body>
     
     <div class="container">
-        
-        <h1>Sign In</h1>
+          <h1>Sign In</h1>
+   <div class="form_holder">     
+      
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
         <p>
@@ -27,6 +28,7 @@
         <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
         <p>{{ form.submit() }}</p>
     </form>
+    </div>
     </div>
      <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
      <!-- Compiled and minified JavaScript -->
