@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, redirect, request, url_for, request, flash
+from flask import Flask, render_template, redirect, request, url_for, request, flash, session, g
 import pymysql
 from config import Config
 from forms import LoginForm
@@ -36,7 +36,7 @@ def first_page():
 
 def signup():
  if request.method == 'POST':
-          
+         
     firstname=request.form['firstname']
     lastname=request.form ['lastname']
     password=request.form['password']
@@ -49,7 +49,8 @@ def signup():
          cursor.execute(sql,(firstname,lastname,email,password))
          connection.commit()
          flash('data added')
-        
+         session['user'] = request.form['email']
+         return redirect(url_for('first_page'))
     except:
           # Close the connection, regardless of whether or not the above was successful
         flash("An exception occurred")
@@ -66,7 +67,7 @@ def get_tasks():
         sql = " SELECT users.id, users.firstname, users.lastname,location.locationname,teamname.teamname FROM users INNER JOIN location ON location.id=users.id INNER JOIN teamname ON teamname.id=users.teamid"
         cursor.execute(sql)
         result = cursor.fetchall()
-        
+        session
     except:
     # Close the connection, regardless of whether or not the above was successful
      print("An exception occurred")
