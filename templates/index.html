@@ -19,7 +19,7 @@
 
                 <div class="input-text">
                     {{ form.username.label }}<br> {{ form.username(size=32) }} {% for error in form.username.errors %}
-                    <span style="color: red;">[{{ error }}]</span> {% endfor %
+                    <span style="color: red;">[{{ error }}]</span> {% endfor %}
                 </div>
                 <div class="input-text">
                     {{ form.password.label }}<br> {{ form.password(size=32) }} {% for error in form.password.errors %}
@@ -41,7 +41,7 @@
 
                 <div class="input-submit">
                     <input type="submit" value="Submit" class="button"></div><br>
-                <a href="">Not a Member?</a>
+                <a href="{{ url_for('signup') }}">Not a Member?</a>
         </div>
 
         </form>

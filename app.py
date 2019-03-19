@@ -32,9 +32,29 @@ def login():
 def first_page():
     return render_template('first_page.html')
     
-@app.route('/signup', methods=['POST', 'GET'])
+@app.route('/signup', methods=['GET', 'POST'])
+
 def signup():
-     
+ if request.method == 'POST':
+          
+    firstname=request.form['firstname']
+    lastname=request.form ['lastname']
+    password=request.form['password']
+    email=request.form['email']
+           
+    try:
+    # Run a query
+     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+         sql = "INSERT INTO users (firstname, lastname, email, password) VALUES ('firstname', lastname, email, password); "
+         cursor.execute(sql)
+         connection.commit()
+         flash('hello')
+        
+    except:
+          # Close the connection, regardless of whether or not the above was successful
+        flash("An exception occurred")
+          
+   
  return render_template('signup.html')
  
 @app.route('/ammend_user')
