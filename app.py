@@ -31,7 +31,12 @@ def login():
 @app.route('/first_page')
 def first_page():
     return render_template('first_page.html')
-
+    
+@app.route('/signup', methods=['POST', 'GET'])
+def signup():
+     
+ return render_template('signup.html')
+ 
 @app.route('/ammend_user')
 def get_tasks():
     

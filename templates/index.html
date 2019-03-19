@@ -3,29 +3,31 @@
 
 <head>
     <title></title>
-  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css" />
 </head>
 
 <body>
-   	<div class="hero-image">
-  <div class="hero-text">
-    <h1>RATE MY CROWD</h1>
-    
-                     <form action="" method="post">
+    <div class="hero-image">
+        <div class="hero-text">
+            <h1>RATE MY CROWD</h1>
+
+            <form action="" method="post">
                 {{ form.hidden_tag() }}
-                
+
                 <div class="input-text">
-                    {{ form.username.label }}<br> {{ form.username(size=32) }}
+                    {{ form.username.label }}<br> {{ form.username(size=32) }} {% for error in form.username.errors %}
+                    <span style="color: red;">[{{ error }}]</span> {% endfor %
                 </div>
-                 <div class="input-text">
-                    {{ form.password.label }}<br> {{ form.password(size=32) }}
-                  </div>
-                  
-                  <div class="switch">
-                        <span>Remember me</span><br>
+                <div class="input-text">
+                    {{ form.password.label }}<br> {{ form.password(size=32) }} {% for error in form.password.errors %}
+                    <span style="color: red;">[{{ error }}]</span> {% endfor %}
+                </div>
+
+                <div class="switch">
+                    <span>Remember me</span><br>
                     <label>
                      
                       No
@@ -35,25 +37,25 @@
                       <span class="lever"></span>
                       Yes
                     </label>
-                  </div>
-               
+                </div>
+
                 <div class="input-submit">
                     <input type="submit" value="Submit" class="button"></div><br>
-                 <a href="">Not a Member?</a>
-                </div>
-               
-            </form>
-          
-  </div>
-</div>
+                <a href="">Not a Member?</a>
+        </div>
+
+        </form>
+
+    </div>
+    </div>
 
 
 
- 
 
-  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!-- Compiled and minified JavaScript -->
- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/javascript.js') }}"></script>
 </body>
 
