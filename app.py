@@ -41,14 +41,14 @@ def signup():
     lastname=request.form ['lastname']
     password=request.form['password']
     email=request.form['email']
-           
+    
     try:
-    # Run a query
-     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
-         sql = "INSERT INTO users (firstname, lastname, email, password) VALUES ('firstname', lastname, email, password); "
-         cursor.execute(sql)
+    
+     with connection.cursor() as cursor:
+         sql= "INSERT INTO `users` (`firstname`, `lastname`, `email`, `password`) VALUES (%s, %s, %s, %s)"
+         cursor.execute(sql,(firstname,lastname,email,password))
          connection.commit()
-         flash('hello')
+         flash('data added')
         
     except:
           # Close the connection, regardless of whether or not the above was successful
