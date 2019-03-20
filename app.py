@@ -22,11 +22,36 @@ connection = pymysql.connect(host='localhost',
 
 @app.route('/', methods=['GET','POST'])
 def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        flash('login requested for user{} remember_me={}'.format(form.username.data, form.remember_me.data))
-        return redirect('/first_page')
-    return render_template('index.html', form=form)
+ form = SignUp()
+ if request.method == 'POST' and form.validate_on_submit():
+       
+       password=generate_password_hash(request.form['password'])
+       email=request.form['email']
+       
+       
+       
+       try:
+        with connection.cursor() as cursor:
+            sql= ("SELECT email FROM users WHERE email= {}".format(email))
+            cursor.execute(sql)
+            result = cursor.fetchone()
+            if not result[0]:
+                return redirect('/')
+            
+            sql=("SELECT password FROM users WHERE email = {};".format(email))
+            cursor.execute(sql)
+            result = cursor.fetchone()
+            if result==password:
+              session['user'] = request.form['email']
+              return redirect(url_for('first_page'))
+                
+       except:
+              # Close the connection, regardless of whether or not the above was successful
+            flash("An exception occurred")
+          
+ return render_template('index.html', form=form)
+    
+    
 #users home screen after signin ...................   
 @app.route('/first_page')
 def first_page():
