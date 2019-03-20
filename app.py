@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, redirect, request, url_for, request, flash, session, g
 import pymysql
 from config import Config
-from forms import LoginForm
+from forms import LoginForm, SignUp
 
 
 
@@ -35,34 +35,32 @@ def first_page():
 @app.route('/signup', methods=['GET', 'POST'])
 
 def signup():
- if request.method == 'POST':
-         
-    firstname=request.form['firstname']
-    lastname=request.form ['lastname']
-    password=request.form['password']
-    email=request.form['email']
+ form = SignUp()
+ if request.method == 'POST' and form.validate_on_submit():
+       firstname=request.form['firstname']
+       lastname=request.form ['lastname']
+       password=request.form['password']
+       email=request.form['email']
+       try:
     
-    try:
-    
-     with connection.cursor() as cursor:
-         sql= "INSERT INTO `users` (`firstname`, `lastname`, `email`, `password`) VALUES (%s, %s, %s, %s)"
-         cursor.execute(sql,(firstname,lastname,email,password))
-         connection.commit()
-         flash('data added')
-         session['user'] = request.form['email']
-         return redirect(url_for('first_page'))
-    except:
+        with connection.cursor() as cursor:
+            sql= "INSERT INTO `users` (`firstname`, `lastname`, `email`, `password`) VALUES (%s, %s, %s, %s)"
+            cursor.execute(sql,(firstname,lastname,email,password))
+            connection.commit()
+            flash('data added')
+            session['user'] = request.form['email']
+            return redirect(url_for('first_page'))
+       except:
           # Close the connection, regardless of whether or not the above was successful
         flash("An exception occurred")
           
-   
- return render_template('signup.html')
+ return render_template('signup.html', form=form)
  
 @app.route('/ammend_user')
 def get_tasks():
     
     try:
-    # Run a query
+    # Run a query 
      with connection.cursor(pymysql.cursors.DictCursor) as cursor:
         sql = " SELECT users.id, users.firstname, users.lastname,location.locationname,teamname.teamname FROM users INNER JOIN location ON location.id=users.id INNER JOIN teamname ON teamname.id=users.teamid"
         cursor.execute(sql)

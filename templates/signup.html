@@ -4,33 +4,30 @@
 
   <div class="row">
     <form class="col s12" action="" method="POST">
+          {{ form.hidden_tag() }}
       <div class="row">
-        <div class="input-field col s6">
-          <input placeholder="Placeholder" id="firstname" name= 'firstname'type="text" >
-          <label for="firstname">First Name</label>
+         {{ form.firstname.label }}<br> {{ form.firstname(size=32) }} 
         </div>
         <div class="input-field col s6">
-          <input id="lastname" name='lastname'type="text" class="validate">
-          <label for="lastname">Last Name</label>
+          {{ form.lastname.label }}<br> {{ form.lastname(size=32) }} 
+         
         </div>
       </div>
   
       <div class="row">
         <div class="input-field col s12">
-          <input id="password" type="password" name='password' class="validate">
-          <label for="password">Password</label>
+        {{ form.email.label }}<br> {{ form.email(size=32) }}
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input id="email" type="email"  name='email'class="validate">
-          <label for="email">Email</label>
+           {{ form.password.label }}<br> {{ form.password(size=32) }}
         </div>
       </div>
    <button class="btn waves-effect waves-light" type="submit" name="action">Submit
     <i class="material-icons right">send</i>
   </button>
     </form>
-  </div>
+  
 
 {% endblock %}

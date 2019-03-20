@@ -1,0 +1,19 @@
+if form.validate_on_submit():    
+       firstname=request.form['firstname']
+       lastname=request.form ['lastname']
+       password=request.form['password']
+       email=request.form['email']
+    
+       try:
+    
+        with connection.cursor() as cursor:
+            sql= "INSERT INTO `users` (`firstname`, `lastname`, `email`, `password`) VALUES (%s, %s, %s, %s)"
+            cursor.execute(sql,(firstname,lastname,email,password))
+            connection.commit()
+            flash('data added')
+            session['user'] = request.form['email']
+            return redirect(url_for('first_page'))
+       except:
+          # Close the connection, regardless of whether or not the above was successful
+        flash("An exception occurred")
+          
