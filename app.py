@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'tidders@gmail.com'
+app.config['MAIL_USERNAME'] = 'tidders2000@gmail.com'
 app.config['MAIL_PASSWORD'] = '2302buzz'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
@@ -30,7 +30,10 @@ connection = pymysql.connect(host='localhost',
 
 @app.route('/', methods=['GET','POST'])
 def login():
+    
  form = LoginForm()
+ if g.user:
+        return render_template('home.html')
  if request.method == 'POST' and form.validate_on_submit():
        session.pop('user', None)
        password=request.form['password']
@@ -84,6 +87,7 @@ def before_request():
 def signup():
  form = SignUp()
  if request.method == 'POST' and form.validate_on_submit():
+       
        firstname=request.form['firstname']
        lastname=request.form ['lastname']
        password=generate_password_hash(request.form['password'])
@@ -109,8 +113,8 @@ def signup():
                     cursor.execute(sql,(firstname,lastname,email,password))
                     connection.commit()
                     flash('data added')
-                    
-                    return redirect('home')
+                    session['user'] = request.form['email']
+                    return redirect('/mail')
        except:
               # Close the connection, regardless of whether or not the above was successful
             flash("An exception occurred")
@@ -136,10 +140,10 @@ def get_tasks():
 
 @app.route("/mail")
 def index():
-   msg = Message('Hello', sender = 'tidders2000@gmail.com', recipients = ['tidders2000@gmail.com'])
-   msg.body = "Hello Flask message sent from Flask-Mail"
+   msg = Message('Hello', sender = 'tidders2000@gmail.com', recipients = [session['user']])
+   msg.body = "user sucessfully created for rate my crowd.com"
    mail.send(msg)
-   return "Sent" 
+   return "sent"
    
 @app.route("/logout")
 def logout():
