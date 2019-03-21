@@ -17,3 +17,26 @@ if form.validate_on_submit():
           # Close the connection, regardless of whether or not the above was successful
         flash("An exception occurred")
           
+ form = LoginForm()
+  
+ if request.method == 'POST' and form.validate_on_submit():
+           email  = request.form['email']
+           try:
+                with connection.cursor() as cursor:
+                    sql=("SELECT COUNT(1) FROM users WHERE email = {};".format(email))
+                    cursor.execute(sql)
+                    result = cursor.fetchone()
+                    if not result[0]:
+                        raise ServerError('Invalid username')
+                        return redirect('/')
+                    password  = generate_password_hash(request.form['password'])
+                    sql=("SELECT password FROM users WHERE email = {};".format(email))
+                    cursor.execute(sql)
+                    
+                    for row in result():
+                        if password == row[0]:
+                            session['user'] = request.form['email']
+                            raise ServerError('Invalid password')
+                            return redirect(url_for('first_page'))
+    
+           return render_template('index.html', form=form)

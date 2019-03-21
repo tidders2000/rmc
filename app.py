@@ -22,32 +22,35 @@ connection = pymysql.connect(host='localhost',
 
 @app.route('/', methods=['GET','POST'])
 def login():
- form = SignUp()
+ form = LoginForm()
  if request.method == 'POST' and form.validate_on_submit():
        
-       password=generate_password_hash(request.form['password'])
+       password=request.form['password']
        email=request.form['email']
        
        
        
        try:
         with connection.cursor() as cursor:
-            sql= ("SELECT email FROM users WHERE email= {}".format(email))
-            cursor.execute(sql)
+            sql= "SELECT `email` FROM `users` WHERE `email`=%s"
+            cursor.execute(sql,(email))
             result = cursor.fetchone()
-            if not result[0]:
+            
+            if result[0] !=email:
+               
                 return redirect('/')
             
-            sql=("SELECT password FROM users WHERE email = {};".format(email))
-            cursor.execute(sql)
+            sql= "SELECT `password` FROM `users` WHERE `email`=%s"
+            cursor.execute(sql,(email))
             result = cursor.fetchone()
-            if result==password:
+            
+            if result[0]==password:
               session['user'] = request.form['email']
               return redirect(url_for('first_page'))
                 
        except:
               # Close the connection, regardless of whether or not the above was successful
-            flash("An exception occurred")
+            flash("incorrect email or password")
           
  return render_template('index.html', form=form)
     
@@ -64,7 +67,7 @@ def signup():
  if request.method == 'POST' and form.validate_on_submit():
        firstname=request.form['firstname']
        lastname=request.form ['lastname']
-       password=generate_password_hash(request.form['password'])
+       password=request.form['password']
        email=request.form['email']
        
        #check user e mail does not esist
