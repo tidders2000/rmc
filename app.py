@@ -65,12 +65,19 @@ def login():
     
 #users home screen after signin ...................   
 @app.route('/home')
-def first_page():
+def home():
     
- 
+    if g.user:
+        return render_template('home.html')
+   
     
+    return redirect('/')
     
-    return render_template('home.html')
+@app.before_request
+def before_request():
+    g.user = None
+    if 'user' in session:
+        g.user = session['user']
     
 @app.route('/signup', methods=['GET', 'POST'])
 #sign up users to the db.................................
@@ -133,6 +140,12 @@ def index():
    msg.body = "Hello Flask message sent from Flask-Mail"
    mail.send(msg)
    return "Sent" 
+   
+@app.route("/logout")
+def logout():
+    session.pop('user', None)
+    print('logged out')
+    return redirect('/')
    
 if __name__=='__main__':
     
