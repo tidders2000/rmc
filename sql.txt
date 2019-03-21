@@ -35,3 +35,10 @@ INSERT INTO users (firstname,lastname,email,startdate,teamid,locationId)
 
 INSERT INTO users (firstname, lastname, email, password)
 VALUES (value1, value2, value3, ...);
+
+ALTER TABLE users
+ALTER COLUMN password varchar(255);
+
+ALTER TABLE users MODIFY password varchar255;
+
+Alter TABLE `users` MODIFY COLUMN `password` varchar(255);

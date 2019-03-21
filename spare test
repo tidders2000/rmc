@@ -40,3 +40,11 @@ if form.validate_on_submit():
                             return redirect(url_for('first_page'))
     
            return render_template('index.html', form=form)
+           
+           """
+@app.before_request
+def before_request():
+    g.user = None
+    if 'user' in session:
+        g.user = session['user']
+""" 

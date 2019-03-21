@@ -3,12 +3,20 @@ from flask import Flask, render_template, redirect, request, url_for, request, f
 import pymysql
 from config import Config
 from forms import LoginForm, SignUp
-from werkzeug.security import generate_password_hash
-
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_mail import Mail, Message
 
 
 
 app = Flask(__name__)
+
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'tidders@gmail.com'
+app.config['MAIL_PASSWORD'] = '2302buzz'
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app)
 
 app.config['SECRET_KEY'] = 'heffalump_34'
 username = os.getenv('C9_USER')
@@ -24,29 +32,29 @@ connection = pymysql.connect(host='localhost',
 def login():
  form = LoginForm()
  if request.method == 'POST' and form.validate_on_submit():
-       
+       session.pop('user', None)
        password=request.form['password']
        email=request.form['email']
        
        
        
        try:
-        with connection.cursor() as cursor:
+        with connection.cursor(pymysql.cursors.Cursor) as cursor:
             sql= "SELECT `email` FROM `users` WHERE `email`=%s"
             cursor.execute(sql,(email))
             result = cursor.fetchone()
             
             if result[0] !=email:
-               
+              
                 return redirect('/')
             
             sql= "SELECT `password` FROM `users` WHERE `email`=%s"
             cursor.execute(sql,(email))
             result = cursor.fetchone()
-            
-            if result[0]==password:
-              session['user'] = request.form['email']
-              return redirect(url_for('first_page'))
+            flash(result[0])
+            if check_password_hash(result[0], password):
+             session['user'] = request.form['email']
+             return redirect('home')
                 
        except:
               # Close the connection, regardless of whether or not the above was successful
@@ -56,9 +64,13 @@ def login():
     
     
 #users home screen after signin ...................   
-@app.route('/first_page')
+@app.route('/home')
 def first_page():
-    return render_template('first_page.html')
+    
+ 
+    
+    
+    return render_template('home.html')
     
 @app.route('/signup', methods=['GET', 'POST'])
 #sign up users to the db.................................
@@ -67,7 +79,7 @@ def signup():
  if request.method == 'POST' and form.validate_on_submit():
        firstname=request.form['firstname']
        lastname=request.form ['lastname']
-       password=request.form['password']
+       password=generate_password_hash(request.form['password'])
        email=request.form['email']
        
        #check user e mail does not esist
@@ -90,8 +102,8 @@ def signup():
                     cursor.execute(sql,(firstname,lastname,email,password))
                     connection.commit()
                     flash('data added')
-                    session['user'] = request.form['email']
-                    return redirect(url_for('first_page'))
+                    
+                    return redirect('home')
        except:
               # Close the connection, regardless of whether or not the above was successful
             flash("An exception occurred")
@@ -115,8 +127,13 @@ def get_tasks():
     
     return render_template("ammend_user.html", users=result)
 
-    
-    
+@app.route("/mail")
+def index():
+   msg = Message('Hello', sender = 'tidders2000@gmail.com', recipients = ['tidders2000@gmail.com'])
+   msg.body = "Hello Flask message sent from Flask-Mail"
+   mail.send(msg)
+   return "Sent" 
+   
 if __name__=='__main__':
     
     app.run(host=os.environ.get('IP'),
