@@ -10,18 +10,12 @@ from flask_mail import Mail, Message
 
 app = Flask(__name__)
 
-app.config['MAIL_SERVER']='smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'tidders2000@gmail.com'
-app.config['MAIL_PASSWORD'] = '2302buzz'
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
+app.config.from_object(Config)
 
-app.config['SECRET_KEY'] = 'heffalump_34'
-username = os.getenv('C9_USER')
 
 # Connect to the database.........................
+username = os.getenv('C9_USER')
 connection = pymysql.connect(host='localhost',
                              user=username,
                              password='',
