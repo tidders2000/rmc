@@ -156,34 +156,47 @@ def logout():
     
 @app.route("/feedback")
 def feedback():
-    page_title="My Feedback"
-    return render_template("feedback.html", page_title=page_title)
+    if g.user:
+        page_title="My Feedback"
+        return render_template("feedback.html", page_title=page_title)
+    return redirect('/')
+    
     
 @app.route("/add_feedback")
 def add_feedback():
-    page_title="Add Feedback"
-    return render_template("add_feedback.html", page_title=page_title)
+    if g.user:
+        page_title="Add Feedback"
+        return render_template("add_feedback.html", page_title=page_title)
+    return redirect('/')
 
+  
 @app.route("/badges")
 def badges():
-    page_title="Badges"
-    return render_template("badges.html", page_title=page_title)
+    if g.user:
+        page_title="Badges"
+        return render_template("badges.html", page_title=page_title)
+    return redirect('/')
     
 @app.route("/mycharts")
 def mycharts():
-    page_title="My Charts"
-    return render_template("mycharts.html", page_title=page_title)
-   
+    if g.user:
+        page_title="My Charts"
+        return render_template("mycharts.html", page_title=page_title)
+    return redirect('/')
+    
 @app.route("/myprofile")
 def myprofile():
-    page_title="My Profile"
-    return render_template("myprofile.html", page_title=page_title)
+    if g.user:
+        page_title="My Profile"
+        return render_template("myprofile.html", page_title=page_title)
+    return redirect('/')
     
 @app.route("/help")
 def help():
-    page_title="Help"
-    return render_template("help.html", page_title=page_title)  
-    
+    if g.user:
+        page_title="Help"
+        return render_template("help.html", page_title=page_title)  
+    return redirect('/')
     
     
     
