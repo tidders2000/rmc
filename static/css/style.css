@@ -1,6 +1,11 @@
 /*............. general bits..............   */
 body, html {
     height: 100%;
+    background-color: #F8F8EC;
+}
+
+h5{
+    color:#E51A1A;
 }
 
 /* The hero image */
@@ -28,24 +33,17 @@ body, html {
   color: white;
 }
 /*............. nav..............   */
-
-nav {
-  background-color: transparent;
-  box-shadow: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1;
-  
-
+nav{
+    background-color: #E8F34F;
 }
 
-.face{
-    font-size: 20rem;
+ul li a{
+    color:#E51A1A;
 }
 
-
+.logo{
+     color:#E51A1A;
+}
 /*............. login..............   */
 
 .input-text label{
@@ -59,6 +57,7 @@ nav {
 }
 
 .button{
+   
     background-color: orange;
     width:100px;
     height:35px;
@@ -72,4 +71,52 @@ nav {
 .button:hover{
     background-color: white;
     color:orange;
+}
+
+.box{
+    width:30px;
+    Height:130px;
+    background-color: blue;
+  
+ 
+}
+
+/*............. home..............   */
+
+.square{
+    
+    height: 100px;
+    width: 100px;
+    background-color:#2C9CDE; 
+    margin:10px;
+    text-align: center;
+    color: #ffffff;
+
+ 
+}
+
+.square a{
+    color: #ffffff;
+}
+
+.buffer{
+    padding-top: 20px;
+}
+
+/*............. signup..............   */
+.button_sign{
+   
+    background-color: #E51A1A;
+    width:100px;
+    height:35px;
+    color:white;
+    font-size: 20px;
+    border-radius:5px;
+    margin-top:10px;
+    
+}
+
+.button:hover{
+    background-color: white;
+    color:#E51A1A;
 }

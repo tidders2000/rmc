@@ -8,8 +8,12 @@
       
    $('.slider').slider({
     height: 700,
-    indicators: false,
+    indicators: false
+    
+
   
   });
+  
+     $('.tooltipped').tooltip();
   
   });

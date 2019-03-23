@@ -67,10 +67,12 @@ def login():
     
 #users home screen after signin ...................   
 @app.route('/home')
+
 def home():
     
     if g.user:
-        return render_template('home.html')
+        page_title = 'Home'
+        return render_template('home.html', page_title=page_title)
    
     
     return redirect('/')
@@ -82,8 +84,10 @@ def before_request():
         g.user = session['user']
     
 @app.route('/signup', methods=['GET', 'POST'])
+
 #sign up users to the db.................................
 def signup():
+ page_title = "Sign Up"    
  form = SignUp()
  if request.method == 'POST' and form.validate_on_submit():
        
@@ -118,11 +122,11 @@ def signup():
               # Close the connection, regardless of whether or not the above was successful
             flash("An exception occurred")
           
- return render_template('signup.html', form=form)
+ return render_template('signup.html', form=form, page_title=page_title)
  
-@app.route('/ammend_user')
+@app.route('/updateInfo')
 def get_tasks():
-    
+    page_title = "Update Info"
     try:
     # Run a query 
      with connection.cursor(pymysql.cursors.DictCursor) as cursor:
@@ -135,7 +139,7 @@ def get_tasks():
      print("An exception occurred")
     
     
-    return render_template("ammend_user.html", users=result)
+    return render_template('updateInfo.html', users=result, page_title=page_title)
 
 @app.route("/mail")
 def index():
@@ -149,7 +153,41 @@ def logout():
     session.pop('user', None)
     print('logged out')
     return redirect('/')
+    
+@app.route("/feedback")
+def feedback():
+    page_title="My Feedback"
+    return render_template("feedback.html", page_title=page_title)
+    
+@app.route("/add_feedback")
+def add_feedback():
+    page_title="Add Feedback"
+    return render_template("add_feedback.html", page_title=page_title)
+
+@app.route("/badges")
+def badges():
+    page_title="Badges"
+    return render_template("badges.html", page_title=page_title)
+    
+@app.route("/mycharts")
+def mycharts():
+    page_title="My Charts"
+    return render_template("mycharts.html", page_title=page_title)
    
+@app.route("/myprofile")
+def myprofile():
+    page_title="My Profile"
+    return render_template("myprofile.html", page_title=page_title)
+    
+@app.route("/help")
+def help():
+    page_title="Help"
+    return render_template("help.html", page_title=page_title)  
+    
+    
+    
+    
+    
 if __name__=='__main__':
     
     app.run(host=os.environ.get('IP'),

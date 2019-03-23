@@ -48,3 +48,20 @@ def before_request():
     if 'user' in session:
         g.user = session['user']
 """ 
+
+
+	 {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+         {% endwith %}
+
+ {% for user in users %}
+            <input type="text" name="firstname" value="{{users.firstname}}"/>
+        <input type="submit" value="Submit"/>
+           
+            {% endfor %}
