@@ -15,5 +15,11 @@
   });
   
      $('.tooltipped').tooltip();
+      $('select').formSelect();
+       $('.datepicker').datepicker();
   
   });
+  
+   
+    
+ 

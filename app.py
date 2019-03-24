@@ -188,7 +188,26 @@ def mycharts():
 def myprofile():
     if g.user:
         page_title="My Profile"
-        return render_template("myprofile.html", page_title=page_title)
+        email=session['user']
+        try:
+         with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+            sql= "SELECT * FROM `users` WHERE `email`=%s"
+            cursor.execute(sql,(email))
+            result = cursor.fetchall()
+            sql= "SELECT * FROM location;"
+            cursor.execute(sql)
+            location = cursor.fetchall()
+            sql= "SELECT * FROM teamname;"
+            cursor.execute(sql)
+            teamname = cursor.fetchall()
+            
+        except:
+            flash('error')
+        return render_template("myprofile.html", page_title=page_title, result=result, location=location, teamname=teamname)
+        
+            
+            
+            
     return redirect('/')
     
 @app.route("/help")
