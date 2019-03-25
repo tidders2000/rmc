@@ -5,8 +5,11 @@ from config import Config
 from forms import LoginForm, SignUp
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mail import Mail, Message
+from flask import Flask, flash, request, redirect, url_for
+from werkzeug.utils import secure_filename
 
-
+UPLOAD_FOLDER = 'static/images/profile'
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 app = Flask(__name__)
 app.config['MAIL_SERVER']='smtp.gmail.com'
@@ -15,7 +18,7 @@ app.config['MAIL_USERNAME'] = os.environ['MAIL_USERNAME']
 app.config['MAIL_PASSWORD'] = os.environ['MAIL_PASSWORD']
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
-
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config.from_object(Config)
 
 mail = Mail(app)
@@ -72,6 +75,15 @@ def home():
     
     if g.user:
         page_title = 'Home'
+        try:
+            with connection.cursor(pymysql.cursors.SSCursor) as cursor:
+                sql= "SELECT `image` FROM `users` WHERE `email`=%s"
+                cursor.execute(sql,(g.user))
+                image = cursor.fetchone()
+                flash(image)
+        except:
+             flash('error')
+        
         return render_template('home.html', page_title=page_title)
    
     
@@ -234,6 +246,8 @@ def myprofile():
             
     return redirect('/')
     
+
+    
 @app.route("/help")
 def help():
     if g.user:
@@ -241,8 +255,42 @@ def help():
         return render_template("help.html", page_title=page_title)  
     return redirect('/')
     
-    
-    
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS  
+           
+@app.route('/upload', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit a empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+           
+            try:
+                 with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+                    sql="UPDATE users SET image=%s WHERE email=%s"
+                    cursor.execute(sql,(filename,g.user))
+                    connection.commit()
+                    flash('data added')
+                  
+            except:
+                flash('error loading pic')
+                
+                
+                
+                
+            return redirect('/')   
+    return render_template('upload.html')
     
 if __name__=='__main__':
     
