@@ -8,6 +8,12 @@ h5{
     color:#E51A1A;
 }
 
+.messages{
+    color:#E51A1A;
+    font-size: large;
+    text-transform: capitalize;
+}
+
 /* The hero image */
 .hero-image {
   /* Use "linear-gradient" to add a darken background effect to the image (photographer.jpg). This will make the text easier to read */

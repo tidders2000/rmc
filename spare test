@@ -65,3 +65,11 @@ def before_request():
         <input type="submit" value="Submit"/>
            
             {% endfor %}
+            
+            
+with connection.cursor(pymysql.cursors.DictCursor) as cursor: 
+                  sql="UPDATE users SET firstname=%s lastname=%s biog=%s where id=%s"%userid
+                  cursor.execute(sql,(firstname,lastname,biog))
+                  connection.commit()
+        except:
+            flash('error')

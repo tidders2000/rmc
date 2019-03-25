@@ -4,33 +4,32 @@
 <div class="container">
  <div class="row buffer"> 
   <div class="row">
-    <form class="col s12">
+    <form class="col s12" method="POST" action="">
           {% for res in result %}
       <div class="row">
+        <input type="hidden" id="id" name="id" value="{{res.id}}">
         <div class="input-field col s6">
-          <input placeholder="{{res.firstname}}" id="firstname" type="text" class="validate">
-          <label for="first_name">First Name</label>
+          <input placeholder="{{res.firstname}}" id="firstname" value= "{{res.firstname}}"name="firstname"type="text" class="validate">
+          <label for="firstname">First Name</label>
         </div>
         <div class="input-field col s6">
-          <input placeholder="{{res.lastname}}" id="lastname" type="text" class="validate">
+          <input placeholder="{{res.lastname}}" id="lastname" value="{{res.lastname}}"name='lastname' type="text" class="validate">
           <label for="lastname">Last Name</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input placeholder="{{res.biog}}" id="biog" type="text" class="validate">
+          <input placeholder="{{res.biog}}" id="biog" type="text" value="{{res.biog}}"  name='biog' class="validate">
           <label for="disabled">Biog</label>
         </div>
       </div>
         <div class="input-field col s12">
    
-    <select>
+    <select name='loca'>
  
+    {% for loc in location %}
     
-     
-      {% for loc in location %}
-    
-    <option value="{{ loc.id }}" value="">{{ loc.locationname}}</option>
+    <option value="{{ loc.id }}" id="locationname" name='Locationname'>{{ loc.locationname}}</option>
     {% endfor %}
     </select>
     <label>location</label>
@@ -45,15 +44,15 @@
       
       <div class="row">
         <div class="input-field col s12">
-          <input type="text" class="datepicker">
+          <input type="text" class="datepicker" id='startdate'>
           <label for="startdate">Start Date</label>
         </div>
       </div>
      
       <div class="input-field col s12">
-    <select>
+    <select name='teamie'>
     {% for team in teamname %}
-      <option value="{{team.id}}">{{team.teamname}}</option>
+      <option value="{{team.id}}" id='teamname' name='teamname'>{{team.teamname}}</option>
     {% endfor %}  
     </select>
     <label>Teamname</label>
@@ -63,15 +62,9 @@
                     <input type="submit" value="Save" class="button_sign"></div><br>
                     </div>
       
-      
+      <div class="messages">
       {% endfor %}
-    </form>
-  </div>   
-  </div>
-</div>
-
-
-	 {% with messages = get_flashed_messages() %}
+      	 {% with messages = get_flashed_messages() %}
         {% if messages %}
         <ul>
             {% for message in messages %}
@@ -80,5 +73,12 @@
         </ul>
         {% endif %}
          {% endwith %}
+         </div>
+    </form>
+  </div>   
+  </div>
+</div>
+
+
            
 {% endblock %}

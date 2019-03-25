@@ -184,16 +184,18 @@ def mycharts():
         return render_template("mycharts.html", page_title=page_title)
     return redirect('/')
     
-@app.route("/myprofile")
+@app.route("/myprofile", methods=['GET', 'POST'])
 def myprofile():
     if g.user:
         page_title="My Profile"
         email=session['user']
+        
         try:
          with connection.cursor(pymysql.cursors.DictCursor) as cursor:
             sql= "SELECT * FROM `users` WHERE `email`=%s"
             cursor.execute(sql,(email))
             result = cursor.fetchall()
+           
             sql= "SELECT * FROM location;"
             cursor.execute(sql)
             location = cursor.fetchall()
@@ -203,6 +205,28 @@ def myprofile():
             
         except:
             flash('error')
+        if request.method == 'POST':
+                  firstname=request.form['firstname']
+                  lastname=request.form['lastname']
+                  biog=request.form['biog']
+                  team=request.form['teamie']
+                  userid=request.form['id']
+                  location=request.form['loca']
+                  
+                  flash('Your information has been updated ')
+                
+               
+                  try:
+                      with connection.cursor(pymysql.cursors.DictCursor) as cursor: 
+                          sql="UPDATE users SET firstname=%s, lastname=%s, biog=%s, teamId=%s, locationId=%s where id=%s"
+                         
+                          cursor.execute(sql,(firstname,lastname,biog,team,location,userid))
+                          connection.commit()
+                  except:
+                        flash('unable to change data')
+      
+              
+                  
         return render_template("myprofile.html", page_title=page_title, result=result, location=location, teamname=teamname)
         
             
