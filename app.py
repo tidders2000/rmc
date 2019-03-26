@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, redirect, request, url_for, request, flash, session, g
+from flask import Flask, render_template, redirect, request, url_for, request, flash, session, g, jsonify
 import pymysql
 from config import Config
 from forms import LoginForm, SignUp
@@ -205,6 +205,7 @@ def mycharts():
 def myprofile():
     if g.user:
         page_title="My Profile"
+        profilepic=session['image'][0]
         email=session['user']
         
         try:
@@ -244,7 +245,7 @@ def myprofile():
       
               
                   
-        return render_template("myprofile.html", page_title=page_title, result=result, location=location, teamname=teamname)
+        return render_template("myprofile.html", page_title=page_title, result=result, location=location, teamname=teamname, profilepic=profilepic)
         
             
             
@@ -266,6 +267,7 @@ def allowed_file(filename):
            
 @app.route('/ppupload', methods=['GET', 'POST'])
 def upload_file():
+    profilepic=session['image'][0]
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
@@ -294,8 +296,22 @@ def upload_file():
                 
                 
                 
-            return redirect('/')   
-    return render_template('ppupload.html')
+            return redirect('home')   
+    return render_template('ppupload.html', profilepic=profilepic)
+    
+@app.route('/names')
+def names():
+     try:
+                 with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+                    sql="SELECT firstname FROM users"
+                    cursor.execute(sql)
+                    connection.commit()
+                    names=cursor.fetchall()
+                    flash('data added')
+     except:
+                    flash('error')
+                  
+     return jsonify(names)
     
 if __name__=='__main__':
     
