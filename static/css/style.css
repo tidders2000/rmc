@@ -8,6 +8,12 @@ h5{
     color:#E51A1A;
 }
 
+.profile{
+    height: 60px;
+    width: 60px;
+    padding:5px;
+}
+
 .messages{
     color:#E51A1A;
     font-size: large;

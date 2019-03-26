@@ -73,3 +73,9 @@ with connection.cursor(pymysql.cursors.DictCursor) as cursor:
                   connection.commit()
         except:
             flash('error')
+            
+sql= "SELECT `profileImage` FROM `users` WHERE `email`=%s"
+                cursor.execute(sql,(g.user))
+                session['image'] = cursor.fetchone()
+                profilepic=session['image']
+                flash(session['image'])

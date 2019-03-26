@@ -37,11 +37,18 @@ INSERT INTO users (firstname, lastname, email, password)
 VALUES (value1, value2, value3, ...);
 
 ALTER TABLE users
-ALTER COLUMN password varchar(255);
+ALTER COLUMN image varchar(255);
 
-ALTER TABLE users MODIFY image varchar60;
+ALTER TABLE users MODIFY image varchar(60);
 
-Alter TABLE `users` MODIFY COLUMN `password` varchar(255);
+Alter TABLE `users` MODIFY COLUMN `image` varchar(60);
 
 INSERT INTO users(id, image) VALUES(78, 'jack.jpg');
 UPDATE users SET image = 'jack.jpg' WHERE id = 78;
+
+ALTER TABLE "users" DROP "image";
+ALTER TABLE users  DROP image;
+
+2
+ALTER TABLE users
+ADD COLUMN profileImage VARCHAR(60) AFTER lastname;

@@ -44,7 +44,7 @@ def login():
        
        
        try:
-        with connection.cursor(pymysql.cursors.Cursor) as cursor:
+        with connection.cursor() as cursor:
             sql= "SELECT `email` FROM `users` WHERE `email`=%s"
             cursor.execute(sql,(email))
             result = cursor.fetchone()
@@ -75,16 +75,19 @@ def home():
     
     if g.user:
         page_title = 'Home'
+        email=g.user
         try:
-            with connection.cursor(pymysql.cursors.SSCursor) as cursor:
-                sql= "SELECT `image` FROM `users` WHERE `email`=%s"
+            with connection.cursor() as cursor:
+                sql= "SELECT `profileImage` FROM `users` WHERE `email`=%s"
                 cursor.execute(sql,(g.user))
-                image = cursor.fetchone()
-                flash(image)
+                session['image'] = cursor.fetchone()
+                profilepic=session['image'][0]
+                flash(profilepic)
+                
         except:
              flash('error')
         
-        return render_template('home.html', page_title=page_title)
+        return render_template('home.html', page_title=page_title, profilepic=profilepic)
    
     
     return redirect('/')
@@ -107,7 +110,7 @@ def signup():
        lastname=request.form ['lastname']
        password=generate_password_hash(request.form['password'])
        email=request.form['email']
-       
+       profileImage='blank_profile.png'
        #check user e mail does not esist
        
        try:
@@ -124,8 +127,8 @@ def signup():
             
             else:
                 with connection.cursor() as cursor:
-                    sql= "INSERT INTO `users` (`firstname`, `lastname`, `email`, `password`) VALUES (%s, %s, %s, %s)"
-                    cursor.execute(sql,(firstname,lastname,email,password))
+                    sql= "INSERT INTO `users` (`firstname`, `lastname`, `email`, `password`,`profileImage`) VALUES (%s, %s, %s, %s, %s)"
+                    cursor.execute(sql,(firstname,lastname,email,password,profileImage))
                     connection.commit()
                     flash('data added')
                     session['user'] = request.form['email']
@@ -158,7 +161,9 @@ def index():
    msg = Message('Hello', sender = 'tidders2000@gmail.com', recipients = [session['user']])
    msg.body = "user sucessfully created for rate my crowd.com"
    mail.send(msg)
-   return "sent"
+   flash('user created')
+   session.pop('user', None)
+   return redirect('/')
    
 @app.route("/logout")
 def logout():
@@ -259,7 +264,7 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS  
            
-@app.route('/upload', methods=['GET', 'POST'])
+@app.route('/ppupload', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
         # check if the post request has the file part
@@ -278,7 +283,7 @@ def upload_file():
            
             try:
                  with connection.cursor(pymysql.cursors.DictCursor) as cursor:
-                    sql="UPDATE users SET image=%s WHERE email=%s"
+                    sql="UPDATE users SET profileImage=%s WHERE email=%s"
                     cursor.execute(sql,(filename,g.user))
                     connection.commit()
                     flash('data added')
@@ -290,7 +295,7 @@ def upload_file():
                 
                 
             return redirect('/')   
-    return render_template('upload.html')
+    return render_template('ppupload.html')
     
 if __name__=='__main__':
     
