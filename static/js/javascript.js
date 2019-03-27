@@ -23,7 +23,7 @@
         var names = {};
         for (var i = 0; i < response.length; i++) {
           //console.log(countryArray[i].name);
-          names[response[i].firstname] = response[i].flag; //countryArray[i].flag or null
+          names[response[i].name] = response[i].flag; //countryArray[i].flag or null
         }
         $('input.autocomplete').autocomplete({
           data: names,

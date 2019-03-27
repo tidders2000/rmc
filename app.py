@@ -106,8 +106,8 @@ def signup():
  form = SignUp()
  if request.method == 'POST' and form.validate_on_submit():
        
-       firstname=request.form['firstname']
-       lastname=request.form ['lastname']
+       fullname=request.form['fullname']
+    
        password=generate_password_hash(request.form['password'])
        email=request.form['email']
        profileImage='blank_profile.png'
@@ -127,8 +127,8 @@ def signup():
             
             else:
                 with connection.cursor() as cursor:
-                    sql= "INSERT INTO `users` (`firstname`, `lastname`, `email`, `password`,`profileImage`) VALUES (%s, %s, %s, %s, %s)"
-                    cursor.execute(sql,(firstname,lastname,email,password,profileImage))
+                    sql= "INSERT INTO `users` (`name`, `email`, `password`,`profileImage`) VALUES (%s, %s, %s, %s)"
+                    cursor.execute(sql,(fullname,email,password,profileImage))
                     connection.commit()
                     flash('data added')
                     session['user'] = request.form['email']
@@ -139,22 +139,6 @@ def signup():
           
  return render_template('signup.html', form=form, page_title=page_title)
  
-@app.route('/updateInfo')
-def get_tasks():
-    page_title = "Update Info"
-    try:
-    # Run a query 
-     with connection.cursor(pymysql.cursors.DictCursor) as cursor:
-        sql = " SELECT users.id, users.firstname, users.lastname,location.locationname,teamname.teamname FROM users INNER JOIN location ON location.id=users.id INNER JOIN teamname ON teamname.id=users.teamid"
-        cursor.execute(sql)
-        result = cursor.fetchall()
-        
-    except:
-    # Close the connection, regardless of whether or not the above was successful
-     print("An exception occurred")
-    
-    
-    return render_template('updateInfo.html', users=result, page_title=page_title)
 
 @app.route("/mail")
 def index():
@@ -183,7 +167,14 @@ def feedback():
 def add_feedback():
     if g.user:
         page_title="Add Feedback"
-        return render_template("add_feedback.html", page_title=page_title)
+        try:
+         with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+             sql= "SELECT * FROM teamname;"
+             cursor.execute(sql)
+             teamname = cursor.fetchall()
+        except: flash('error')
+             
+        return render_template("add_feedback.html", page_title=page_title, teamname=teamname)
     return redirect('/')
 
   
@@ -224,8 +215,8 @@ def myprofile():
         except:
             flash('error')
         if request.method == 'POST':
-                  firstname=request.form['firstname']
-                  lastname=request.form['lastname']
+                  fullname=request.form['fullname']
+                
                   biog=request.form['biog']
                   team=request.form['teamie']
                   userid=request.form['id']
@@ -236,9 +227,9 @@ def myprofile():
                
                   try:
                       with connection.cursor(pymysql.cursors.DictCursor) as cursor: 
-                          sql="UPDATE users SET firstname=%s, lastname=%s, biog=%s, teamId=%s, locationId=%s where id=%s"
+                          sql="UPDATE users SET name=%s, biog=%s, teamId=%s, locationId=%s where id=%s"
                          
-                          cursor.execute(sql,(firstname,lastname,biog,team,location,userid))
+                          cursor.execute(sql,(fullname,biog,team,location,userid))
                           connection.commit()
                   except:
                         flash('unable to change data')
@@ -298,11 +289,12 @@ def upload_file():
                 
             return redirect('home')   
     return render_template('ppupload.html', profilepic=profilepic)
+
 @app.route('/names')
 def names():
      try:
                  with connection.cursor(pymysql.cursors.DictCursor) as cursor:
-                    sql="SELECT firstname FROM users"
+                    sql="SELECT name FROM users"
                     cursor.execute(sql)
                     connection.commit()
                     names=cursor.fetchall()
@@ -311,6 +303,7 @@ def names():
                     flash('error')
                   
      return jsonify(names)
+
     
 if __name__=='__main__':
     
