@@ -298,7 +298,6 @@ def upload_file():
                 
             return redirect('home')   
     return render_template('ppupload.html', profilepic=profilepic)
-    
 @app.route('/names')
 def names():
      try:
@@ -317,5 +316,5 @@ if __name__=='__main__':
     
     app.run(host=os.environ.get('IP'),
             port=int(os.environ.get('PORT')),
-            debug=True)
+           )
     
