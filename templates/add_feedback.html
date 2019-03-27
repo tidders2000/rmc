@@ -9,8 +9,8 @@
       <div class="row">
         <div class="input-field col s12">
           <i class="material-icons prefix">textsms</i>
-          <input type="text" id="autocomplete-input" class="autocomplete">
-          <label for="autocomplete-input">Autocomplete</label>
+          <input type="text" id="fullname" name="fullname"class="autocomplete">
+          <label for="autocomplete-input">FullName</label>
         </div>
          <div class="input-field col s12">
     <select name='teamie'>
@@ -23,13 +23,13 @@
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input  value="title" id="title" type="text" >
+          <input  value="title" id="title" type="text" name="title" >
           <label for="title">Title</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <textarea id="textarea1" class="materialize-textarea"></textarea>
+          <textarea id="feedbacktext" class="materialize-textarea" name="feedbacktext"></textarea>
           <label for="textarea1">Textarea</label>
         </div>
       </div>
@@ -40,6 +40,14 @@
       </form>              </div>
                     
   </div>
-        
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+         {% endwith %}    
            
 {% endblock %}

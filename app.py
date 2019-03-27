@@ -163,7 +163,7 @@ def feedback():
     return redirect('/')
     
     
-@app.route("/add_feedback")
+@app.route("/add_feedback", methods=['POST','GET'])
 def add_feedback():
     if g.user:
         page_title="Add Feedback"
@@ -172,8 +172,31 @@ def add_feedback():
              sql= "SELECT * FROM teamname;"
              cursor.execute(sql)
              teamname = cursor.fetchall()
-        except: flash('error')
              
+        except: flash('error')
+        if request.method=='POST':
+             fullname=request.form['fullname']
+             email=session['user']
+             team=request.form['teamie'] 
+             feedback_title=request.form['title']
+             feedback_text=request.form['feedbacktext']
+             
+             try:
+                 with connection.cursor() as cursor:
+                      sql= "SELECT `id` FROM `users` WHERE `email`=%s"
+                      cursor.execute(sql,(email))
+                      nominatorId = cursor.fetchone()
+                      
+                      sql= "SELECT `id` FROM `users` WHERE `name`=%s AND `team`=%s "
+                      cursor.execute(sql,(fullname,team))
+                      result=cursor.fetchone()
+                      nominatedid=result[0]
+                      flash(result[0])
+                      sql="INSERT INTO feedback (nominatedid,feedbackTitle,teamId,feedbacktext,nominatorId) VALUES (%s,%s,%s,%s,%s)"
+                      cursor.execute(sql,(nominatorId[0],feedback_title,team,feedback_text,nominatedid))
+                      flash("feedback added")
+             except:
+                 flash("oopps")
         return render_template("add_feedback.html", page_title=page_title, teamname=teamname)
     return redirect('/')
 
