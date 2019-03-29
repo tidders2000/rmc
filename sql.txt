@@ -72,10 +72,10 @@ sql= "SELECT * FROM feedback WHERE nominatedId=%s;"
              if not feedback:
                  flash('sorry no feedback')
                  
-    mysql> SELECT feedback.feedbackTitle,feedback.feebacktext,feedback.fbdate,users.name,users.profilepic   
+    mysql> SELECT feedback.feedbackTitle,feedback.feedbacktext,feedback.fbdate,users.name,users.profileImage   
     FROM feedback
     INNER JOIN users ON feedback.nominatorId=users.id
     WHERE nominatedId=84;
     
     
-   -WHERE users.Id = nominator.id
+   

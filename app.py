@@ -227,7 +227,18 @@ def add_feedback():
 def badges():
     if g.user:
         page_title="Badges"
-        return render_template("badges.html", page_title=page_title)
+        profilepic=session['image'][0]
+        
+        try:
+         with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+             sql= "SELECT * FROM teamname;"
+             cursor.execute(sql)
+             teamname = cursor.fetchall()
+             
+        except: flash('error')
+        
+        
+        return render_template("badges.html", page_title=page_title, teamname=teamname)
     return redirect('/')
     
 @app.route("/mycharts")
