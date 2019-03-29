@@ -83,12 +83,28 @@ def home():
                 cursor.execute(sql,(g.user))
                 session['image'] = cursor.fetchone()
                 profilepic=session['image'][0]
-                flash(profilepic)
+                
+                
                 
         except:
              flash('error')
+        try:
+         with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+             sql= "SELECT id FROM users WHERE email=%s;"
+             cursor.execute(sql,(g.user))
+             result = cursor.fetchone()
+             userid=result['id']
+             
+             sql= "SELECT badges.badge,users.name FROM badges INNER JOIN users ON badges.badgegiver=users.id WHERE badgenomId=%s"
+             cursor.execute(sql,(userid))
+             badges=cursor.fetchall()
+            
+             if not badges:
+                 flash('sorry no badges')
+        except: 
+             flash('error')
         
-        return render_template('home.html', page_title=page_title, profilepic=profilepic)
+        return render_template('home.html', page_title=page_title, profilepic=profilepic, badges=badges)
    
     
     return redirect('/')
@@ -223,7 +239,7 @@ def add_feedback():
     return redirect('/')
 
   
-@app.route("/badges")
+@app.route("/badges", methods=['POST','GET'])
 def badges():
     if g.user:
         page_title="Badges"
@@ -236,7 +252,30 @@ def badges():
              teamname = cursor.fetchall()
              
         except: flash('error')
-        
+        if request.method=='POST':
+             fullname=request.form['fullname']
+             team=request.form['teamie'] 
+             badge=request.form['badge']
+             email=session['user']
+             try:
+                 with connection.cursor() as cursor:
+                      sql= "SELECT `id` FROM `users` WHERE `email`=%s"
+                      cursor.execute(sql,(email))
+                      badgegiver = cursor.fetchone()
+                     
+                     
+                      sql= "SELECT `id` FROM `users` WHERE `name`=%s AND teamId =%s"
+                      cursor.execute(sql,(fullname,team))
+                      result=cursor.fetchone()
+                      badgenomId=result[0]
+                      
+                      sql="INSERT INTO badges (badgenomId,badge,badgegiver) VALUES (%s,%s,%s)"
+                      cursor.execute(sql,(badgegiver[0],badge,badgegiver))
+                      flash("feedback added")
+             except:
+                 flash("oopps")
+              
+             
         
         return render_template("badges.html", page_title=page_title, teamname=teamname)
     return redirect('/')
