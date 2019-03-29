@@ -399,6 +399,20 @@ def names():
                   
      return jsonify(names)
 
+@app.route('/viewprofile')
+def view_profile():
+     try:
+         with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+                    
+                    sql="SELECT users.id, users.name, users.biog,users.profileImage, teamname.teamname FROM users INNER JOIN teamname ON users.teamId=teamname.id"
+                    cursor.execute(sql)
+                    result=cursor.fetchall()
+                   
+                  
+     except:
+                    flash('error')
+     return  render_template('viewprofile.html', result=result)
+
     
 if __name__=='__main__':
     
