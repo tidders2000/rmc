@@ -1,6 +1,7 @@
 import os
 from flask import Flask, render_template, redirect, request, url_for, request, flash, session, g, jsonify
 import pymysql
+from datetime import datetime
 from config import Config
 from forms import LoginForm, SignUp
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -159,7 +160,23 @@ def logout():
 def feedback():
     if g.user:
         page_title="My Feedback"
-        return render_template("feedback.html", page_title=page_title)
+        profilepic=session['image'][0]
+        email=session['user']
+        try:
+         with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+             sql= "SELECT id FROM users WHERE email=%s;"
+             cursor.execute(sql,(email))
+             result = cursor.fetchone()
+             userid=result['id']
+             sql= "SELECT feedback.feedbackTitle,feedback.feedbacktext,feedback.fbdate,users.name,users.profileImage FROM feedback INNER JOIN users ON feedback.nominatorId=users.id WHERE nominatedId=%s"
+             cursor.execute(sql,(userid))
+             feedback=cursor.fetchall()
+             
+             if not feedback:
+                 flash('sorry no feedback')
+        except: 
+             flash('error')
+        return render_template("feedback.html", page_title=page_title, profilepic=profilepic, feedback=feedback)
     return redirect('/')
     
     
@@ -167,6 +184,8 @@ def feedback():
 def add_feedback():
     if g.user:
         page_title="Add Feedback"
+        profilepic=session['image'][0]
+        
         try:
          with connection.cursor(pymysql.cursors.DictCursor) as cursor:
              sql= "SELECT * FROM teamname;"
@@ -180,24 +199,27 @@ def add_feedback():
              team=request.form['teamie'] 
              feedback_title=request.form['title']
              feedback_text=request.form['feedbacktext']
+             date=datetime.now()
+             fbdate=(date.strftime("%x"))
              
              try:
                  with connection.cursor() as cursor:
                       sql= "SELECT `id` FROM `users` WHERE `email`=%s"
                       cursor.execute(sql,(email))
                       nominatorId = cursor.fetchone()
-                      
-                      sql= "SELECT `id` FROM `users` WHERE `name`=%s AND `team`=%s "
+                     
+                     
+                      sql= "SELECT `id` FROM `users` WHERE `name`=%s AND teamId =%s"
                       cursor.execute(sql,(fullname,team))
                       result=cursor.fetchone()
                       nominatedid=result[0]
-                      flash(result[0])
-                      sql="INSERT INTO feedback (nominatedid,feedbackTitle,teamId,feedbacktext,nominatorId) VALUES (%s,%s,%s,%s,%s)"
-                      cursor.execute(sql,(nominatorId[0],feedback_title,team,feedback_text,nominatedid))
+                      
+                      sql="INSERT INTO feedback (nominatorId,feedbackTitle,teamId,feedbacktext,nominatedId,fbdate) VALUES (%s,%s,%s,%s,%s,%s)"
+                      cursor.execute(sql,(nominatorId[0],feedback_title,team,feedback_text,nominatedid, fbdate))
                       flash("feedback added")
              except:
                  flash("oopps")
-        return render_template("add_feedback.html", page_title=page_title, teamname=teamname)
+        return render_template("add_feedback.html", page_title=page_title, teamname=teamname, profilepic=profilepic)
     return redirect('/')
 
   

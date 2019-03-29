@@ -6,6 +6,7 @@
     $('.tooltipped').tooltip();
     $('select').formSelect();
     $('.datepicker').datepicker();
+    $('.collapsible').collapsible();
   
       
    $('.slider').slider({

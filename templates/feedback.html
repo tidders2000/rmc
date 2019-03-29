@@ -3,8 +3,24 @@
 
 <div class="container">
   
-    
-  
-</div>
-           
+    <ul class="collapsible">
+    {% for feed in feedback %}
+    <li>
+      <div class="collapsible-header"><img class="circle profile" src="static/images/profile/{{feed.profileImage}}"/></i>{{feed.feedbackTitle}}  {{feed.fbdate}} {{feed.name}}</div>
+      <div class="collapsible-body"><span>{{feed.feedbacktext}}</span></div>
+    </li>
+   {% endfor %}
+  </ul>
+
+
+ 	 {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+         {% endwith %}
+ </div>   
 {% endblock %}

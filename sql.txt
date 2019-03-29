@@ -56,3 +56,26 @@ ALTER TABLE users  DROP image;
 2
 ALTER TABLE users
 ADD COLUMN profileImage VARCHAR(60) AFTER lastname;
+
+ALTER TABLE feedback
+ADD fbdate date;
+
+
+ sql="INSERT INTO feedback (nominatorId,feedbackTitle,teamId,feedbacktext,nominatedId) VALUES (%s,%s,%s,%s,%s)"
+                      cursor.execute(sql,(nominatorId[0],feedback_title,team,feedback_text,nominatedid))
+                      flash("feedback added")
+                      
+sql= "SELECT * FROM feedback WHERE nominatedId=%s;"
+             cursor.execute(sql,(userid[0]))
+             feedback=cursor.fetchall()
+             flash(feedback)
+             if not feedback:
+                 flash('sorry no feedback')
+                 
+    mysql> SELECT feedback.feedbackTitle,feedback.feebacktext,feedback.fbdate,users.name,users.profilepic   
+    FROM feedback
+    INNER JOIN users ON feedback.nominatorId=users.id
+    WHERE nominatedId=84;
+    
+    
+   -WHERE users.Id = nominator.id
