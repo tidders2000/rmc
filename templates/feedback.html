@@ -2,11 +2,13 @@
 {% block content %}
 
 <div class="container">
-  
-    <ul class="collapsible">
+  <br>
+  <br>
+    <ul class="collapsible feedback_list">
     {% for feed in feedback %}
     <li>
-      <div class="collapsible-header"><img class="circle profile tooltipped" data-position="bottom" data-tooltip="{{feed.name}}" src="static/images/profile/{{feed.profileImage}}"/></i>{{feed.feedbackTitle}}  {{feed.fbdate}} </div>
+      <div class="collapsible-header">
+          <img class="circle profile tooltipped" data-position="bottom" data-tooltip="{{feed.name}}" src="static/images/profile/{{feed.profileImage}}"/>{{feed.feedbackTitle}} {{feed.fbdate}} </div>
       <div class="collapsible-body"><span>{{feed.feedbacktext}}</span></div>
     </li>
    {% endfor %}

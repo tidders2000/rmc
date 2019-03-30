@@ -21,6 +21,7 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config.from_object(Config)
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 mail = Mail(app)
 # Connect to the database.........................
@@ -216,8 +217,8 @@ def add_feedback():
              feedback_title=request.form['title']
              feedback_text=request.form['feedbacktext']
              date=datetime.now()
-             fbdate=(date.strftime("%x"))
-             
+             fbdate=(date.strftime("%Y-%m-%d"))
+             flash(fbdate)
              try:
                  with connection.cursor() as cursor:
                       sql= "SELECT `id` FROM `users` WHERE `email`=%s"
