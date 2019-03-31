@@ -3,6 +3,7 @@
 
 <head>
     <title></title>
+    <!-- materialize, fontawsome, google fonts and style-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" />
@@ -10,11 +11,12 @@
 </head>
 
 <body>
+    <!-- full page image using materialize class-->
     <div class="hero-image">
-        	 
+
         <div class="hero-text">
             <h1>RATE MY CROWD</h1>
-
+            <!-- dynamic form rendered from flask forms-->
             <form action="" method="post">
                 {{ form.hidden_tag() }}
 
@@ -27,31 +29,32 @@
                     <span style="color: red;">[{{ error }}]</span> {% endfor %}
                 </div>
 
-                <div class="switch">
-                    <span>Remember me</span><br>
-                    <label>
-                     
-                      No
-                      
-                      <input type="checkbox"id="remember_me"name="remember_me" >
-                     
-                      <span class="lever"></span>
-                      Yes
-                    </label>
-                </div>
+                <!-- create user link-->
 
                 <div class="input-submit">
                     <input type="submit" value="Submit" class="button"></div><br>
                 <a href="{{ url_for('signup') }}">Not a Member?</a>
+               <!-- flashed messages from flask--> 
+                <div class="messages">
+
+                    {% with messages = get_flashed_messages() %} {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                        <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %} {% endwith %}
+                </div>
         </div>
 
         </form>
 
     </div>
+
     </div>
 
 
-
+    <!-- jquery and materialise scriptss-->
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

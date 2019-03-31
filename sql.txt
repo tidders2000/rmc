@@ -27,8 +27,8 @@ Team
 team ID
 team name
 
-INSERT INTO users (firstname,lastname,email,startdate,teamid,locationId)
-    VALUES ('elvie','tidman','elvie@hotmail.com','11/08/18','1','1')
+INSERT INTO users (name,email,startdate,teamid,locationId)
+    VALUES ('userone','tidman','elvie@hotmail.com','11/08/18','1','1')
     
     mysql> SELECT users.id, users.firstname, users.lastname,location.locationname
    -> FROM users, location
@@ -77,4 +77,7 @@ sql= "SELECT * FROM feedback WHERE nominatedId=%s;"
     WHERE nominatedId=84;
     
     
-   
+    INSERT INTO location (locationname, addressline1, addressline2, city, county, postcode) VALUES
+    ('LocationA', '1 London road','Barnes','London','London','LN16TC'),
+    ('LocationB', '1 Manchester Road', 'Bury','Manchester','Lancs','MC140DT'),
+    ('LocationC', '1 Birmingham Road', 'Sullihull','Birmingham','Midlands','ME25WX');

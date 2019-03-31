@@ -39,11 +39,12 @@ def login():
  if g.user:
         return render_template('home.html')
  if request.method == 'POST' and form.validate_on_submit():
+     #clears session and gets password and email
        session.pop('user', None)
        password=request.form['password']
        email=request.form['email']
        
-       
+      # retrieves email and if does not returns to login 
        
        try:
         with connection.cursor() as cursor:
@@ -52,9 +53,9 @@ def login():
             result = cursor.fetchone()
             
             if result[0] !=email:
-              
+                flash('email incorrect')
                 return redirect('/')
-            
+         #authenticates password using password hash   
             sql= "SELECT `password` FROM `users` WHERE `email`=%s"
             cursor.execute(sql,(email))
             result = cursor.fetchone()
@@ -65,6 +66,7 @@ def login():
                 
        except:
               # Close the connection, regardless of whether or not the above was successful
+            connection.close()
             flash("incorrect email or password")
           
  return render_template('index.html', form=form)
@@ -120,8 +122,16 @@ def before_request():
 
 #sign up users to the db.................................
 def signup():
+#adds page title and form
  page_title = "Sign Up"    
  form = SignUp()
+ try:
+         with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+             sql= "SELECT * FROM teamname;"
+             cursor.execute(sql)
+             teamname = cursor.fetchall()
+             
+ except: flash('error')
  if request.method == 'POST' and form.validate_on_submit():
        
        fullname=request.form['fullname']
@@ -129,14 +139,14 @@ def signup():
        password=generate_password_hash(request.form['password'])
        email=request.form['email']
        profileImage='blank_profile.png'
-       #check user e mail does not esist
-       
+       #check user e mail does not exsist in db
+     
        try:
         with connection.cursor() as cursor:
             sql= "SELECT `email` FROM `users` WHERE `email`=%s"
             cursor.execute(sql,(email))
             result = cursor.fetchall()
-            flash(result)
+           
             
             if len(result)!=0:
                 flash('already registered')
@@ -148,14 +158,14 @@ def signup():
                     sql= "INSERT INTO `users` (`name`, `email`, `password`,`profileImage`) VALUES (%s, %s, %s, %s)"
                     cursor.execute(sql,(fullname,email,password,profileImage))
                     connection.commit()
-                    flash('data added')
+                    flash('User created please login')
                     session['user'] = request.form['email']
                     return redirect('/mail')
        except:
               # Close the connection, regardless of whether or not the above was successful
             flash("An exception occurred")
-          
- return render_template('signup.html', form=form, page_title=page_title)
+            connection.close()
+ return render_template('signup.html', form=form, page_title=page_title, teamname=teamname)
  
 
 @app.route("/mail")
@@ -394,7 +404,7 @@ def names():
                     cursor.execute(sql)
                     connection.commit()
                     names=cursor.fetchall()
-                    flash('data added')
+                  
      except:
                     flash('error')
                   

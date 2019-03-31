@@ -5,7 +5,7 @@ body, html {
 }
 
 h5{
-    color:#E51A1A;
+    color:#778899;
 }
 
 .profile{
@@ -49,12 +49,16 @@ nav{
     background-color: #E8F34F;
 }
 
-ul li a{
-    color:#E51A1A;
+ul li a {
+    color:#2F4F4F;
 }
 
+    
+
+
+
 .logo{
-     color:#E51A1A;
+     color:#2F4F4F;
 }
 /*............. login..............   */
 
