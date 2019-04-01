@@ -313,7 +313,7 @@ def myprofile():
         
         try:
          with connection.cursor(pymysql.cursors.DictCursor) as cursor:
-            sql= "SELECT * FROM `users` WHERE `email`=%s"
+            sql= "SELECT users.name,users.password,users.teamId,users.biog,users.startdate,teamname.teamname FROM users INNER JOIN teamname ON users.teamId=teamname.Id WHERE `email`=%s"
             cursor.execute(sql,(email))
             result = cursor.fetchall()
            
