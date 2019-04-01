@@ -125,6 +125,7 @@ def signup():
 #adds page title and form
  page_title = "Sign Up"    
  form = SignUp()
+#populate team dropdown
  try:
          with connection.cursor(pymysql.cursors.DictCursor) as cursor:
              sql= "SELECT * FROM teamname;"
@@ -132,10 +133,14 @@ def signup():
              teamname = cursor.fetchall()
              
  except: flash('error')
+ 
+              
+
+ 
  if request.method == 'POST' and form.validate_on_submit():
        
        fullname=request.form['fullname']
-    
+       team=request.form['teamie'] 
        password=generate_password_hash(request.form['password'])
        email=request.form['email']
        profileImage='blank_profile.png'
@@ -146,7 +151,8 @@ def signup():
             sql= "SELECT `email` FROM `users` WHERE `email`=%s"
             cursor.execute(sql,(email))
             result = cursor.fetchall()
-           
+            
+  #checks email is not already in use         
             
             if len(result)!=0:
                 flash('already registered')
@@ -155,8 +161,8 @@ def signup():
             
             else:
                 with connection.cursor() as cursor:
-                    sql= "INSERT INTO `users` (`name`, `email`, `password`,`profileImage`) VALUES (%s, %s, %s, %s)"
-                    cursor.execute(sql,(fullname,email,password,profileImage))
+                    sql= "INSERT INTO `users` (`name`, `email`, `password`,`profileImage`,`teamId`) VALUES (%s, %s, %s, %s,%s)"
+                    cursor.execute(sql,(fullname,email,password,profileImage,team))
                     connection.commit()
                     flash('User created please login')
                     session['user'] = request.form['email']

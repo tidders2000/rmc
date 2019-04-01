@@ -62,15 +62,19 @@ ul li a {
 }
 /*............. login..............   */
 
-.input-text label{
+.input-text label, .input-field label{
     font-family: sans-serif;
-    font-size: 30px;
+    font-size: 20px;
     color:orange;
+    text-transform: uppercase;
+
 }
 
-.input-text input{
+.input-text input, .input-field input{
     color:white;
 }
+
+
 
 .button{
    
@@ -146,3 +150,4 @@ ul li a {
 .feedback_list{
     margin-top: 30px;
 }
+
