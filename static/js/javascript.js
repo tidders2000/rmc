@@ -5,7 +5,10 @@
     $('.sidenav').sidenav();
     $('.tooltipped').tooltip();
     $('select').formSelect();
-    $('.datepicker').datepicker();
+    $('.datepicker').datepicker(
+      {
+        format:'yyyy,dd,mm'
+      });
     $('.collapsible').collapsible();
   
       

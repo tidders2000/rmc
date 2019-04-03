@@ -11,8 +11,21 @@
             <input placeholder="{{res.name}}" id="fullname" value="{{res.name}}" name="fullname" type="text" class="validate">
             <label for="name"> Name</label>
           </div>
+          <div class="input-field col s6">
+            <select name='loca'>
+                  <option value="{{res.locationId}}" selected>{{res.locationname}}</option>
+                {% for loc in location %}
+                
+                <option value="{{ loc.id }}">{{ loc.locationname}}</option>
+                {% endfor %}
+                </select>
 
+            <label>location</label>
+          </div>
         </div>
+
+
+
         <div class="row">
           <div class="input-field col s12">
             <input placeholder="{{res.biog}}" id="biog" type="text" value="{{res.biog}}" name='biog' class="validate">
@@ -23,13 +36,10 @@
 
 
         <div class="row">
-          <div class="input-field col s12">
-            <input id="password" type="password" class="validate">
-            <label for="password">Password</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
+       
+       
+      
+          <div class="input-field col s12 l6">
             <select name='teamie'>
       <option value="{{res.teamId}}" selected>{{res.teamname}}</option>
     {% for team in teamname %}
@@ -38,45 +48,40 @@
     </select>
             <label>Teamname</label>
           </div>
-        </div>
+       
 
-        <div class="row">
-          <div class="input-field col s12">
-            <input type="text" class="datepicker" id='startdate'>
+      
+          <div class="input-field col s12 l6">
+            <input type="text" placeholder="{{res.startdate}}"class="datepicker" name="startdate" id='startdate'>
             <label for="startdate">Start Date</label>
           </div>
         </div>
- 
- <div class='row'>
-  <div class="input-field col s12">
-        <select name='loca'>
-      <option value="{{res.locationId}}" selected>{{res.locationname}}</option>
-    {% for loc in location %}
-    
-    <option value="{{ loc.id }}">{{ loc.locationname}}</option>
-    {% endfor %}
-    </select>
 
-        <label>location</label>
+      <div class="row">
+        
+           <div class="input-field col s12">
+            <input id="password" type="password" class="validate" name="password">
+            <label for="password">Password</label>
+          </div>
+      </div>
+
+        <div class="input-submit center">
+          <input type="submit" value="Save" class="button"></input>
+        </div><br>
     </div>
-</div>
+    {% endfor %}
+    <div class="messages">
 
-    <div class="input-submit center">
-      <input type="submit" value="Save" class="button_sign"></input></div><br>
+      {% with messages = get_flashed_messages() %} {% if messages %}
+      <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %} {% endwith %}
+    </div>
+    </form>
   </div>
-  {% endfor %}
-  <div class="messages">
-
-    {% with messages = get_flashed_messages() %} {% if messages %}
-    <ul>
-      {% for message in messages %}
-      <li>{{ message }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %} {% endwith %}
-  </div>
-  </form>
-</div>
 </div>
 </div>
 

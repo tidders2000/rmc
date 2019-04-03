@@ -310,7 +310,7 @@ def myprofile():
         
         try:
          with connection.cursor(pymysql.cursors.DictCursor) as cursor:
-            sql= "SELECT users.name,users.id,users.password,users.biog, users.teamId,users.locationId,teamname.teamname,location.locationname FROM users INNER JOIN teamname ON users.teamId=teamname.id INNER JOIN location ON users.locationId=location.id WHERE `email`=%s"
+            sql= "SELECT users.name,users.id,users.password,users.biog, users.startdate,users.teamId,users.locationId,teamname.teamname,location.locationname FROM users INNER JOIN teamname ON users.teamId=teamname.id INNER JOIN location ON users.locationId=location.id WHERE `email`=%s"
             cursor.execute(sql,(email))
             result = cursor.fetchall()
             
@@ -326,19 +326,20 @@ def myprofile():
         
         if request.method == 'POST':
                   fullname=request.form['fullname']
-                
+                  date=request.form['startdate']
                   biog=request.form['biog']
                   team=request.form['teamie']
                   userid=request.form['id']
                   location=request.form['loca']
+                  password=generate_password_hash(request.form['password'])
                   
                
                 
                
                   try:
                       with connection.cursor(pymysql.cursors.DictCursor) as cursor: 
-                          sql="UPDATE users SET name=%s, biog=%s, teamId=%s, locationId=%s where id=%s"
-                          cursor.execute(sql,(fullname,biog,team,location,userid))
+                          sql="UPDATE users SET name=%s, password=%s,startdate=%s,biog=%s, teamId=%s, locationId=%s where id=%s"
+                          cursor.execute(sql,(fullname,password,date,biog,team,location,userid))
                           connection.commit()
                           flash('data updated')
                           return redirect('myprofile')
