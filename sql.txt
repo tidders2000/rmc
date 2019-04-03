@@ -81,3 +81,9 @@ sql= "SELECT * FROM feedback WHERE nominatedId=%s;"
     ('LocationA', '1 London road','Barnes','London','London','LN16TC'),
     ('LocationB', '1 Manchester Road', 'Bury','Manchester','Lancs','MC140DT'),
     ('LocationC', '1 Birmingham Road', 'Sullihull','Birmingham','Midlands','ME25WX');
+    
+    SELECT users.name,users.password,users.teamId,users.biog,users.startdate,teamname.teamname
+    FROM users
+    INNER JOIN teamname ON users.teamId=teamname.Id
+    
+     sql= "SELECT users.id,users.name,users.password,users.teamId,users.locationId,users.biog,users.startdate,teamname.teamname,location.locationname FROM users INNER JOIN teamname ON users.teamId=teamname.Id  INNER JOIN location On users.locationId=location.id WHERE `email`=%s

@@ -22,7 +22,7 @@
           <form class="col s12 " action="" method="POST">
             {{ form.hidden_tag() }}
             <div class="row">
-              <div class="input-field col s12 center-align ">
+              <div class="input-field signin col s12 center-align ">
                 {{ form.fullname.label }}<br> {{ form.fullname(size=60) }}
               </div>
 
@@ -30,12 +30,12 @@
 
 
             <div class="row">
-              <div class="input-field col s12 l12">
+              <div class="input-field  signin col s12 l12">
                 <!--teamname drop down option from db-->
                 <select name='teamie'>
                  {% for team in teamname %}
               
-                <option class= 'input-field' value="{{team.id}}" id='teamname' name='teamname'>{{team.teamname}}</option>
+                <option class= 'input-field signin' value="{{team.id}}" id='teamname' name='teamname'>{{team.teamname}}</option>
                  {% endfor %}
              
                 </select>
@@ -44,10 +44,10 @@
               </div>
             </div>
             <div class="row">
-              <div class="input-field col s12  l12">
+              <div class="input-field signin col s12  l12">
                 {{ form.password.label }}<br> {{ form.password(size=32) }}
               </div>
-              <div class="input-field col s12 l12">
+              <div class="input-field signin col s12 l12">
                 {{ form.email.label }}<br> {{ form.email(size=32) }}
               </div>
             </div>

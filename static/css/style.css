@@ -62,7 +62,7 @@ ul li a {
 }
 /*............. login..............   */
 
-.input-text label, .input-field label{
+.input-text label, .signin label{
     font-family: sans-serif;
     font-size: 20px;
     color:orange;
@@ -70,7 +70,7 @@ ul li a {
 
 }
 
-.input-text input, .input-field input{
+.input-text input, .signin input{
     color:white;
 }
 
@@ -120,7 +120,7 @@ ul li a {
 }
 
 .buffer{
-    padding-top: 20px;
+    padding-top: 40px;
 }
 
 /*............. signup..............   */
@@ -146,8 +146,28 @@ ul li a {
  margin-left:30px;
 }
 
-/*............. profile view..............   */
+
+
+/*............. feedback..............   */
 .feedback_list{
     margin-top: 30px;
 }
 
+/*............. add feedback..............   */
+
+.input-field label{
+        font-family: sans-serif;
+    font-size: 20px;
+    color:orange;
+    text-transform: uppercase;
+}
+
+
+.input-field input{
+    color:grey;
+    padding-bottom: 10px;
+}
+
+.test{
+    margin-left: 5px;
+}

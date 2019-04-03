@@ -1,82 +1,85 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 
 <div class="container">
- <div class="row buffer"> 
-  <div class="row">
-    <form class="col s12" method="POST" action="">
-          {% for res in result %}
-      <div class="row">
-        <input type="hidden" id="id" name="id" value="{{res.id}}">
-        <div class="input-field col s6">
-          <input placeholder="{{res.name}}" id="fullname" value= "{{res.name}}"name="fullname"type="text" class="validate">
-          <label for="name"> Name</label>
+  <div class="row buffer">
+    <div class="row">
+      <form class="col s12" method="POST" action="">
+        {% for res in result %}
+        <div class="row">
+          <input type="hidden" id="id" name="id" value="{{res.id}}">
+          <div class="input-field col s6">
+            <input placeholder="{{res.name}}" id="fullname" value="{{res.name}}" name="fullname" type="text" class="validate">
+            <label for="name"> Name</label>
+          </div>
+
         </div>
-       
-      </div>
-      <div class="row">
-        <div class="input-field col s12">
-          <input placeholder="{{res.biog}}" id="biog" type="text" value="{{res.biog}}"  name='biog' class="validate">
-          <label for="disabled">Biog</label>
+        <div class="row">
+          <div class="input-field col s12">
+            <input placeholder="{{res.biog}}" id="biog" type="text" value="{{res.biog}}" name='biog' class="validate">
+            <label for="disabled">Biog</label>
+          </div>
         </div>
-      </div>
-        <div class="input-field col s12">
-   
-    <select name='loca'>
- 
-    {% for loc in location %}
-    
-    <option value="{{ loc.id }}" >{{ loc.locationname}}</option>
-    {% endfor %}
-    </select>
-    <label>location</label>
-  </div>
-    
-      <div class="row">
-        <div class="input-field col s12">
-          <input id="password" type="password" class="validate">
-          <label for="password">Password</label>
+
+
+
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="password" type="password" class="validate">
+            <label for="password">Password</label>
+          </div>
         </div>
-      </div>
-      
-      <div class="row">
-        <div class="input-field col s12">
-          <input type="text" class="datepicker" id='startdate'>
-          <label for="startdate">Start Date</label>
-        </div>
-      </div>
-     
-      <div class="input-field col s12">
-    <select name='teamie'>
+        <div class="row">
+          <div class="input-field col s12">
+            <select name='teamie'>
+      <option value="{{res.teamId}}" selected>{{res.teamname}}</option>
     {% for team in teamname %}
-      <option value="{{team.id}}" id='teamname' name='teamname'>{{res.teamname}}</option>
+      <option value="{{team.id}}" id='teamname' name='teamname'>{{team.teamname}}</option>
     {% endfor %}  
     </select>
-    <label>Teamname</label>
-  </div>
+            <label>Teamname</label>
+          </div>
+        </div>
 
-      
-       <div class="input-submit center">
-                    <input type="submit" value="Save" class="button_sign"></div><br>
-                    </div>
-      
-      <div class="messages">
-      {% endfor %}
-      	 {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-         {% endwith %}
-         </div>
-    </form>
-  </div>   
+        <div class="row">
+          <div class="input-field col s12">
+            <input type="text" class="datepicker" id='startdate'>
+            <label for="startdate">Start Date</label>
+          </div>
+        </div>
+ 
+ <div class='row'>
+  <div class="input-field col s12">
+        <select name='loca'>
+      <option value="{{res.locationId}}" selected>{{res.locationname}}</option>
+    {% for loc in location %}
+    
+    <option value="{{ loc.id }}">{{ loc.locationname}}</option>
+    {% endfor %}
+    </select>
+
+        <label>location</label>
+    </div>
+</div>
+
+    <div class="input-submit center">
+      <input type="submit" value="Save" class="button_sign"></input></div><br>
   </div>
+  {% endfor %}
+  <div class="messages">
+
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <ul>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %} {% endwith %}
+  </div>
+  </form>
+</div>
+</div>
 </div>
 
 
-           
+
 {% endblock %}

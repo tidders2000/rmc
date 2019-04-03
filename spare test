@@ -1,81 +1,56 @@
-if form.validate_on_submit():    
-       firstname=request.form['firstname']
-       lastname=request.form ['lastname']
-       password=request.form['password']
-       email=request.form['email']
+if request.method == 'POST':
+                  fullname=request.form['fullname']
+                
+                  biog=request.form['biog']
+                  team=request.form['teamie']
+                  userid=request.form['id']
+                  location=request.form['loca']
+                  
+               
+                
+               
+                  try:
+                      with connection.cursor(pymysql.cursors.DictCursor) as cursor: 
+                          sql="UPDATE users SET name=%s, biog=%s, teamId=%s, locationId=%s where id=%s"
+                         
+                          cursor.execute(sql,(fullname,biog,team,location,userid))
+                          connection.commit()
+                         
+                  except:
+                        flash('unable to change data')
+                        
+                        
+                          sql= "SELECT users.id,users.name,users.password,users.teamId,users.locationId,users.biog,users.startdate,teamname.teamname,location.locationname FROM users INNER JOIN teamname ON users.teamId=teamname.Id  INNER JOIN location On users.locationId=location.id WHERE `email`=%s"
+            cursor.execute(sql,(g.user))
+            result = cursor.fetchall()
+            flash(result)
+            sql= "SELECT * FROM location;"
+            cursor.execute(sql)
+            location = cursor.fetchall()
+            sql= "SELECT * FROM teamname;"
+            cursor.execute(sql)
+            teamname = cursor.fetchall()
+            
+            
+              <select name='loca'>
+      <option value="res.locationId" selected>{{res.locationname}}</option>
+    {% for loc in location %}
     
-       try:
-    
-        with connection.cursor() as cursor:
-            sql= "INSERT INTO `users` (`firstname`, `lastname`, `email`, `password`) VALUES (%s, %s, %s, %s)"
-            cursor.execute(sql,(firstname,lastname,email,password))
-            connection.commit()
-            flash('data added')
-            session['user'] = request.form['email']
-            return redirect(url_for('first_page'))
-       except:
-          # Close the connection, regardless of whether or not the above was successful
-        flash("An exception occurred")
-          
- form = LoginForm()
+    <option value="{{ loc.id }}">{{ loc.locationname}}</option>
+    {% endfor %}
+    </select>
+
+    <label>location</label>
+  </div>
   
- if request.method == 'POST' and form.validate_on_submit():
-           email  = request.form['email']
-           try:
-                with connection.cursor() as cursor:
-                    sql=("SELECT COUNT(1) FROM users WHERE email = {};".format(email))
-                    cursor.execute(sql)
-                    result = cursor.fetchone()
-                    if not result[0]:
-                        raise ServerError('Invalid username')
-                        return redirect('/')
-                    password  = generate_password_hash(request.form['password'])
-                    sql=("SELECT password FROM users WHERE email = {};".format(email))
-                    cursor.execute(sql)
-                    
-                    for row in result():
-                        if password == row[0]:
-                            session['user'] = request.form['email']
-                            raise ServerError('Invalid password')
-                            return redirect(url_for('first_page'))
-    
-           return render_template('index.html', form=form)
-           
-           """
-@app.before_request
-def before_request():
-    g.user = None
-    if 'user' in session:
-        g.user = session['user']
-""" 
+        <div class="input-field col s12">
+    <select name='teamie'>
+      <option value="res.teamId" selected>{{res.teamname}}</option>
+    {% for team in teamname %}
+      <option value="{{team.id}}" id='teamname' name='teamname'>{{team.teamname}}</option>
+    {% endfor %}  
+    </select>
+    <label>Teamname</label>
+  </div>
 
-
-	 {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-         {% endwith %}
-
- {% for user in users %}
-            <input type="text" name="firstname" value="{{users.firstname}}"/>
-        <input type="submit" value="Submit"/>
-           
-            {% endfor %}
-            
-            
-with connection.cursor(pymysql.cursors.DictCursor) as cursor: 
-                  sql="UPDATE users SET firstname=%s lastname=%s biog=%s where id=%s"%userid
-                  cursor.execute(sql,(firstname,lastname,biog))
-                  connection.commit()
-        except:
-            flash('error')
-            
-sql= "SELECT `profileImage` FROM `users` WHERE `email`=%s"
-                cursor.execute(sql,(g.user))
-                session['image'] = cursor.fetchone()
-                profilepic=session['image']
-                flash(session['image'])
+    teamname.teamname,location.locationname FROM users INNER JOIN teamname ON users.teamId=teamname.Id  INNER JOIN location On users.locationId=location.id

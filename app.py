@@ -217,8 +217,9 @@ def feedback():
 def add_feedback():
     if g.user:
         page_title="Add Feedback"
+        #checks session cookie
         profilepic=session['image'][0]
-        
+        # recovers teams for dropdown
         try:
          with connection.cursor(pymysql.cursors.DictCursor) as cursor:
              sql= "SELECT * FROM teamname;"
@@ -235,18 +236,19 @@ def add_feedback():
              date=datetime.now()
              fbdate=(date.strftime("%Y-%m-%d"))
              flash(fbdate)
+             #recover  id for person giving feedback
              try:
                  with connection.cursor() as cursor:
                       sql= "SELECT `id` FROM `users` WHERE `email`=%s"
                       cursor.execute(sql,(email))
                       nominatorId = cursor.fetchone()
-                     
+                   #recover id for person receving feedback  
                      
                       sql= "SELECT `id` FROM `users` WHERE `name`=%s AND teamId =%s"
                       cursor.execute(sql,(fullname,team))
                       result=cursor.fetchone()
                       nominatedid=result[0]
-                      
+                   #add feedback   
                       sql="INSERT INTO feedback (nominatorId,feedbackTitle,teamId,feedbacktext,nominatedId,fbdate) VALUES (%s,%s,%s,%s,%s,%s)"
                       cursor.execute(sql,(nominatorId[0],feedback_title,team,feedback_text,nominatedid, fbdate))
                       flash("feedback added")
@@ -297,12 +299,7 @@ def badges():
         return render_template("badges.html", page_title=page_title, teamname=teamname)
     return redirect('/')
     
-@app.route("/mycharts")
-def mycharts():
-    if g.user:
-        page_title="My Charts"
-        return render_template("mycharts.html", page_title=page_title)
-    return redirect('/')
+
     
 @app.route("/myprofile", methods=['GET', 'POST'])
 def myprofile():
@@ -313,19 +310,20 @@ def myprofile():
         
         try:
          with connection.cursor(pymysql.cursors.DictCursor) as cursor:
-            sql= "SELECT users.name,users.password,users.teamId,users.biog,users.startdate,teamname.teamname FROM users INNER JOIN teamname ON users.teamId=teamname.Id WHERE `email`=%s"
+            sql= "SELECT users.name,users.id,users.password,users.biog, users.teamId,users.locationId,teamname.teamname,location.locationname FROM users INNER JOIN teamname ON users.teamId=teamname.id INNER JOIN location ON users.locationId=location.id WHERE `email`=%s"
             cursor.execute(sql,(email))
             result = cursor.fetchall()
-           
+            
             sql= "SELECT * FROM location;"
             cursor.execute(sql)
             location = cursor.fetchall()
             sql= "SELECT * FROM teamname;"
             cursor.execute(sql)
             teamname = cursor.fetchall()
-            
+         
         except:
             flash('error')
+        
         if request.method == 'POST':
                   fullname=request.form['fullname']
                 
@@ -333,22 +331,22 @@ def myprofile():
                   team=request.form['teamie']
                   userid=request.form['id']
                   location=request.form['loca']
-                  flash(request.form)
-                  flash('Your information has been updated ')
+                  
+               
                 
                
                   try:
                       with connection.cursor(pymysql.cursors.DictCursor) as cursor: 
                           sql="UPDATE users SET name=%s, biog=%s, teamId=%s, locationId=%s where id=%s"
-                         
                           cursor.execute(sql,(fullname,biog,team,location,userid))
                           connection.commit()
+                          flash('data updated')
+                          return redirect('myprofile')
                   except:
                         flash('unable to change data')
-      
               
                   
-        return render_template("myprofile.html", page_title=page_title, result=result, location=location, teamname=teamname, profilepic=profilepic)
+        return render_template("myprofile.html", page_title=page_title, result=result,location=location,teamname=teamname, profilepic=profilepic)
         
             
             
@@ -392,6 +390,7 @@ def upload_file():
                     cursor.execute(sql,(filename,g.user))
                     connection.commit()
                     flash('data added')
+                    
                   
             except:
                 flash('error loading pic')
@@ -403,6 +402,7 @@ def upload_file():
     return render_template('ppupload.html', profilepic=profilepic)
 
 @app.route('/names')
+#recover users for dropdown list used on forms for user names
 def names():
      try:
                  with connection.cursor(pymysql.cursors.DictCursor) as cursor:
@@ -418,17 +418,25 @@ def names():
 
 @app.route('/viewprofile')
 def view_profile():
-     try:
+  # check session and add title/profile image   
+     if g.user:
+        page_title="My Colleauges"
+        profilepic=session['image'][0]
+        try:
          with connection.cursor(pymysql.cursors.DictCursor) as cursor:
-                    
+          #recover all users from database          
                     sql="SELECT users.id, users.name, users.biog,users.profileImage, teamname.teamname FROM users INNER JOIN teamname ON users.teamId=teamname.id"
                     cursor.execute(sql)
                     result=cursor.fetchall()
                    
                   
-     except:
+        except:
                     flash('error')
-     return  render_template('viewprofile.html', result=result)
+        return  render_template('viewprofile.html', result=result, profilepic=profilepic) 
+    
+     return redirect('/')
+    
+   
 
     
 if __name__=='__main__':

@@ -1,53 +1,53 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 
 <div class="container">
+  <!-- feedback form to allow staff to add feedback about colleauges -->
 
-  <div class="row">
+  <div class="row buffer">
     <div class="col s12">
-        <form class="col s12" action="" method="POST">
-      <div class="row">
-        <div class="input-field col s12">
-       
-          <input type="text" id="fullname" name="fullname"class="autocomplete">
-          <label>Fullname</label>
-        </div>
-         <div class="input-field col s12">
-    <select name='teamie'>
+      <form class="col s12" action="" method="POST">
+        <div class="row">
+          <div class="input-field col s12">
+
+            <input type="text" id="fullname" name="fullname" class="autocomplete">
+            <label>Fullname</label>
+          </div>
+
+          <div class="input-field col s12">
+            <!--teamname dropdown to seperate names-->
+            <select name='teamie'>
     {% for team in teamname %}
       <option value="{{team.id}}" id='teamname' name='teamname'>{{team.teamname}}</option>
     {% endfor %}  
     </select>
-    <label>Teamname</label>
-  </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s12">
-          <input  value="title" id="title" type="text" name="title" >
-          <label for="title">Title</label>
+            <label>Teamname</label>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s12">
-          <textarea id="feedbacktext" class="materialize-textarea" name="feedbacktext"></textarea>
-          <label for="textarea1">Textarea</label>
+        <div class="row">
+          <div class="input-field col s12">
+            <input  id="title" type="text" name="title">
+            <label for="title">A few kind words</label>
+          </div>
         </div>
-      </div>
-      
+        <div class="row">
+          <div class="input-field col s12">
+            <textarea id="feedbacktext" class="materialize-textarea" name="feedbacktext"></textarea>
+            <label for="textarea1">Feedback</label>
+          </div>
+        </div>
+
     </div>
     <div class="input-submit center">
-                    <input type="submit" value="Submit" class="button_sign"></div><br>
-      </form>              </div>
-                    
+      <input type="submit" value="Submit" class="button"></div><br>
+    </form>
   </div>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-         {% endwith %}    
-           
-{% endblock %}
+
+</div>
+<!--flashed messages-->
+{% with messages = get_flashed_messages() %} {% if messages %}
+<ul>
+  {% for message in messages %}
+  <li>{{ message }}</li>
+  {% endfor %}
+</ul>
+{% endif %} {% endwith %} {% endblock %}
