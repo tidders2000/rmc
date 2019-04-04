@@ -1,60 +1,82 @@
 {% extends 'base.html' %} {% block content %}
 
 <div class="container">
-    <div class='row'>
-     
+    <div class='row buffer'>
 
-            <form class="col s12" action="" method="POST">
-                <div class="row">
-                    <div class="input-field col s12">
-                        <i class="material-icons prefix">textsms</i>
-                        <input type="text" id="fullname" name="fullname" class="autocomplete">
-                        <label for="autocomplete-input">FullName</label>
-                    </div>
-                    <div class="input-field col s12">
-                        <select name='teamie'>
+
+        <form class="col s12" action="" method="POST">
+            <div class="row">
+                <div class="input-field col s12">
+
+                    <input type="text" id="fullname" name="fullname" class="autocomplete">
+                    <label for="autocomplete-input">FullName</label>
+                </div>
+                <div class="input-field col s12">
+                    <select name='teamie'>
     {% for team in teamname %}
       <option value="{{team.id}}" id='teamname' name='teamname'>{{team.teamname}}</option>
     {% endfor %}  
     </select>
-                        <label>Teamname</label>
-                    </div>
+                    <label>Teamname</label>
                 </div>
+            </div>
     </div>
     <div class='row'>
-        
-        
-         <div class='col s6 l2'>
-      <label class='center'>
+
+
+        <div class='col s6 l2'>
+            <label class='center'>
         <input name="badge" type="radio" value='money.png' />
         <span><img src="static/images/badges/money.png" /></span>
       </label>
-    </div>
-    <div class='col s6 l2'>
-      <label>
-        <input name="badge" type="radio" value='birthday-cake.png' />
-        <span><img src="static/images/badges/birthday-cake.png" /></span>
+        </div>
+        <div class='col s6 l2'>
+            <label>
+        <input name="badge" type="radio" value='birthday-cake.png'/>
+        <span><img src="static/images/badges/birthday-cake.png"/></span>
       </label>
-    </div>
- 
-        
-      
+        </div>
+        <div class='col s6 l2'>
+            <label>
+        <input name="badge" type="radio" value='alcohol.png'/>
+        <span><img src="static/images/badges/alcohol.png"/></span>
+      </label>
+        </div>
+
+        <div class='col s6 l2'>
+            <label>
+        <input name="badge" type="radio" value='deal.png'/>
+        <span><img src="static/images/badges/deal.png"/></span>
+      </label>
+        </div>
+        <div class='col s6 l2'>
+            <label>
+        <input name="badge" type="radio" value='leaf.png'/>
+        <span><img src="static/images/badges/leaf.png"/></span>
+      </label>
+        </div>
+
+        <div class='col s6 l2'>
+            <label>
+        <input name="badge" type="radio" value='medal.png'/>
+        <span><img src="static/images/badges/medal.png"/></span>
+      </label>
+        </div>
 
     </div>
-
+    <br>
     <div class="input-submit center">
-        <input type="submit" value="Submit" class="button_sign"></div>
+        <input type="submit" value="Submit" class="button"></div>
     </form>
+<div class="messages">
 
-{% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-         {% endwith %}    
-</div>
+      {% with messages = get_flashed_messages() %} {% if messages %}
+      <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %} {% endwith %}
+    </div>
 
 {% endblock %}

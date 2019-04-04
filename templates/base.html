@@ -4,9 +4,12 @@
 <head>
     <title></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
+   
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css" />
+
 </head>
 
 <body>
@@ -18,13 +21,13 @@
 				<ul id="nav-mobile" class="left">
 				 
 				    <li><a href="{{ url_for('upload_file') }}"><img src="static/images/profile/{{profilepic}}" class="circle profile tooltipped" data-position="bottom" data-tooltip="Change image"/></a></li>
-					<li><a href="{{ url_for('myprofile') }}"><i class="material-icons tooltipped" >face</i></a></li>
+					<li><a href="{{ url_for('myprofile') }}"><i class="material-icons tooltipped" data-position="bottom" data-tooltip="Update Profile" >face</i></a></li>
                     
 
 				</ul>
 				<ul id="nav-mobile" class="right">
 					<li><a href="{{ url_for('view_profile') }}"><i class="material-icons tooltipped"data-position="bottom" data-tooltip="Contacts">import_contacts</i></a></li>
-					
+					  <li><a href="#modal1"  class="modal-trigger"><i class="material-icons tooltipped" data-position="bottom" data-tooltip="Help">help</i></a></li>
                     <li><a href="{{ url_for('home') }}"><i class="material-icons tooltipped"data-position="bottom" data-tooltip="Home">home</i></a></li>
                     <li><a href="{{ url_for('logout') }}"><i class="material-icons tooltipped"data-position="bottom" data-tooltip="logout">logout</i></a></li>
 				</ul>
@@ -42,10 +45,11 @@
       <i class="material-icons">menu</i>
     </a>
         <ul>
+            <li><a href="{{ url_for('help') }}" class="btn-floating blue"><i class="material-icons">help</i></a></li>
             <li><a href="{{url_for('add_feedback') }}" class="btn-floating red"><i class="material-icons">create</i></a></li>
             <li><a href="{{url_for('feedback') }}" class="btn-floating yellow darken-1"><i class="material-icons">book</i></a></li>
             <li><a href="{{url_for('badges') }}" class="btn-floating green"><i class="material-icons">insert_emoticon</i></a></li>
-            <li><a href="{{ url_for('help') }}" class="btn-floating blue"><i class="material-icons">help</i></a></li>
+          
         </ul>
     </div>
 
@@ -56,11 +60,35 @@
 
 
     {% block content %} {% endblock %}
+    
+    
 
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      
+<img class="mySlides" src="static/images/help/welcome.PNG">
+<img class="mySlides" src="static/images/help/home2.PNG">
+<img class="mySlides" src="static/images/help/feedback.PNG">
+<img class="mySlides" src="static/images/help/buttons.PNG">
+
+<button class="w3-button w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+<button class="w3-button w3-display-right" onclick="plusDivs(+1)">&#10095;</button>
+    </div>
+    <div class="modal-footer">
+ 
+    </div>
+  </div>
+
+     
     <!-- Compiled and minified JavaScript -->
+       <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/javascript.js') }}"></script>
+ 
+
+       <script type="text/javascript" src="{{ url_for('static', filename='js/javascript.js') }}"></script>
+       <script type="text/javascript" src="{{ url_for('static', filename='js/helpslider.js') }}"></script>
 </body>
 
 </html>

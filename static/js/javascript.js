@@ -10,6 +10,8 @@
         format:'yyyy,dd,mm'
       });
     $('.collapsible').collapsible();
+     $('.modal').modal();
+    
   
       
    $('.slider').slider({
@@ -35,6 +37,10 @@
         });
       }
     });
+    
+
+
+
   });
 
     

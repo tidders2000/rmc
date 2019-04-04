@@ -59,7 +59,7 @@ def login():
             sql= "SELECT `password` FROM `users` WHERE `email`=%s"
             cursor.execute(sql,(email))
             result = cursor.fetchone()
-            flash(result[0])
+          
             if check_password_hash(result[0], password):
              session['user'] = request.form['email']
              return redirect('home')
@@ -289,14 +289,14 @@ def badges():
                       badgenomId=result[0]
                       
                       sql="INSERT INTO badges (badgenomId,badge,badgegiver) VALUES (%s,%s,%s)"
-                      cursor.execute(sql,(badgegiver[0],badge,badgegiver))
-                      flash("feedback added")
+                      cursor.execute(sql,(badgenomId,badge,badgegiver))
+                      flash("Badge added")
              except:
                  flash("oopps")
               
              
         
-        return render_template("badges.html", page_title=page_title, teamname=teamname)
+        return render_template("badges.html", page_title=page_title, teamname=teamname, profilepic=profilepic)
     return redirect('/')
     
 
