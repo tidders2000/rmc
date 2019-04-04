@@ -331,8 +331,11 @@ def myprofile():
                   team=request.form['teamie']
                   userid=request.form['id']
                   location=request.form['loca']
-                  password=generate_password_hash(request.form['password'])
-                  
+                  password=request.form['password']
+                  if len(password)!=0
+                   password=generate_password_hash(request.form['password'])
+                  else
+                  password=result['password']
                
                 
                

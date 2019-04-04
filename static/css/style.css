@@ -7,7 +7,9 @@ body, html {
 h5{
     color:#778899;
 }
-
+@-ms-viewport{
+  width: device-width;
+}
 .profile{
     height: 60px;
     width: 60px;
