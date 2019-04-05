@@ -314,7 +314,7 @@ def myprofile():
             sql= "SELECT users.name,users.id,users.password,users.biog, users.startdate,users.teamId,users.locationId,teamname.teamname,location.locationname FROM users INNER JOIN teamname ON users.teamId=teamname.id INNER JOIN location ON users.locationId=location.id WHERE `email`=%s"
             cursor.execute(sql,(email))
             result = cursor.fetchall()
-            flash(result[0]['password'])
+           
            
                 
             
