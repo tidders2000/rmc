@@ -27,15 +27,7 @@
 	
 		<div class="row">
 		<h5>My Badges</h5>
-		<ul>
-		{% for badge in badges %}
-<span class='tooltipped' data-position="bottom" data-tooltip="{{badge.name}}">	<img src='static/images/badges/{{badge.badge}}'/></span>
-		{%endfor%}
-	</ul>
-	</div>
-</div>
-
- {% with messages = get_flashed_messages() %}
+		 {% with messages = get_flashed_messages() %}
         {% if messages %}
         <ul>
             {% for message in messages %}
@@ -44,6 +36,18 @@
         </ul>
         {% endif %}
          {% endwith %}  
+		<ul>
+		{% for badge in badges %}
+<span class='tooltipped' data-position="bottom" data-tooltip="{{badge.name}}">	<img src='static/images/badges/{{badge.badge}}'/></span>
+		{%endfor%}
+	</ul>
+	</div>
+</div>
+
+  <!--Div that will hold the pie chart-->
+    <div id="chart_div"></div>
+
+
 
            
 {% endblock %}

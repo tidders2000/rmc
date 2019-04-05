@@ -10,7 +10,9 @@
    
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css" />
-
+        <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+           <script type="text/javascript" src="{{ url_for('static', filename='js/charts.js') }}"></script>
 </head>
 
 <body>
@@ -18,7 +20,7 @@
 	<div class="col s12">
 		<nav class="nav">
 			<div class="nav-wrapper">
-				<a href="" class="brand-logo hide-on-small-only center right"><span class="logo">{{ page_title }}</span></a>
+				<a href="" class="brand-logo hide-on-small-only  right"><span class="logo">{{ page_title }}</span></a>
 				<ul id="nav-mobile" class="left">
 				 
 				    <li><a href="{{ url_for('upload_file') }}"><img src="static/images/profile/{{profilepic}}" class="circle profile tooltipped" data-position="bottom" data-tooltip="Change image"/></a></li>
