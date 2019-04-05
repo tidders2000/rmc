@@ -144,6 +144,7 @@ def signup():
        password=generate_password_hash(request.form['password'])
        email=request.form['email']
        profileImage='blank_profile.png'
+       location=4
        #check user e mail does not exsist in db
      
        try:
@@ -161,8 +162,8 @@ def signup():
             
             else:
                 with connection.cursor() as cursor:
-                    sql= "INSERT INTO `users` (`name`, `email`, `password`,`profileImage`,`teamId`) VALUES (%s, %s, %s, %s,%s)"
-                    cursor.execute(sql,(fullname,email,password,profileImage,team))
+                    sql= "INSERT INTO `users` (`name`, `email`, `password`,`profileImage`,`teamId`,`locationId`) VALUES (%s, %s, %s, %s,%s,%s)"
+                    cursor.execute(sql,(fullname,email,password,profileImage,team,location))
                     connection.commit()
                     flash('User created please login')
                     session['user'] = request.form['email']
@@ -313,6 +314,10 @@ def myprofile():
             sql= "SELECT users.name,users.id,users.password,users.biog, users.startdate,users.teamId,users.locationId,teamname.teamname,location.locationname FROM users INNER JOIN teamname ON users.teamId=teamname.id INNER JOIN location ON users.locationId=location.id WHERE `email`=%s"
             cursor.execute(sql,(email))
             result = cursor.fetchall()
+            flash(result[0]['password'])
+           
+                
+            
             
             sql= "SELECT * FROM location;"
             cursor.execute(sql)
@@ -320,7 +325,7 @@ def myprofile():
             sql= "SELECT * FROM teamname;"
             cursor.execute(sql)
             teamname = cursor.fetchall()
-         
+           
         except:
             flash('error')
         
@@ -332,12 +337,9 @@ def myprofile():
                   userid=request.form['id']
                   location=request.form['loca']
                   password=request.form['password']
-                  if len(password)!=0
-                   password=generate_password_hash(request.form['password'])
-                  else
-                  password=result['password']
-               
-                
+                  if password!=result[0]['password']:
+                   password=generate_password_hash(request.form['password'])  
+                 
                
                   try:
                       with connection.cursor(pymysql.cursors.DictCursor) as cursor: 
@@ -350,7 +352,7 @@ def myprofile():
                         flash('unable to change data')
               
                   
-        return render_template("myprofile.html", page_title=page_title, result=result,location=location,teamname=teamname, profilepic=profilepic)
+        return render_template("myprofile.html", page_title=page_title, result=result,teamname=teamname, profilepic=profilepic)
         
             
             
