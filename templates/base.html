@@ -24,7 +24,7 @@
 				    <li><a href="{{ url_for('upload_file') }}"><img src="static/images/profile/{{profilepic}}" class="circle profile tooltipped" data-position="bottom" data-tooltip="Change image"/></a></li>
 					<li><a href="{{ url_for('myprofile') }}"><i class="material-icons tooltipped" data-position="bottom" data-tooltip="Update Profile" >face</i></a></li>
                     
-					  <li><a href="#modal1"  class="modal-trigger"><i class="material-icons tooltipped" data-position="bottom" data-tooltip="Help">help</i></a></li>
+					  <li><a href="{{ url_for('help') }}"><i class="material-icons tooltipped" data-position="bottom" data-tooltip="Help">help</i></a></li>
                     <li><a href="{{ url_for('home') }}"><i class="material-icons tooltipped"data-position="bottom" data-tooltip="Home">home</i></a></li>
                     <li><a href="{{ url_for('logout') }}"><i class="material-icons tooltipped"data-position="bottom" data-tooltip="logout">logout</i></a></li>
 
@@ -66,10 +66,10 @@
 
 
   <!-- Modal Structure -->
-  <div id="modal1" class="modal">
+  <div id="modal1" class="modal col s12">
     <div class="modal-content">
       
-<img class="mySlides" src="static/images/help/welcome.PNG">
+<img class="mySlides modalimg" src="static/images/help/welcome.PNG">
 <img class="mySlides" src="static/images/help/home2.PNG">
 <img class="mySlides" src="static/images/help/feedback.PNG">
 <img class="mySlides" src="static/images/help/buttons.PNG">

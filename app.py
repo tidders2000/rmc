@@ -365,7 +365,8 @@ def myprofile():
 def help():
     if g.user:
         page_title="Help"
-        return render_template("help.html", page_title=page_title)  
+        profilepic=session['image'][0]
+        return render_template("help.html", page_title=page_title, profilepic=profilepic)  
     return redirect('/')
     
 def allowed_file(filename):
@@ -443,7 +444,7 @@ def view_profile():
      return redirect('/')
     
    
-
+  
     
 if __name__=='__main__':
     

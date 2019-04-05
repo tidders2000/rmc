@@ -4,7 +4,7 @@ body, html {
     background-color: #F8F8EC;
 }
 
-h5{
+h5 h1{
     color:#778899;
 }
 @-ms-viewport{
@@ -172,4 +172,9 @@ ul li a {
 
 .test{
     margin-left: 5px;
+}
+
+.modalimg{
+    width:100%;
+    margin:auto;
 }
