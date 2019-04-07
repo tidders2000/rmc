@@ -87,3 +87,7 @@ sql= "SELECT * FROM feedback WHERE nominatedId=%s;"
     INNER JOIN teamname ON users.teamId=teamname.Id
     
      sql= "SELECT users.id,users.name,users.password,users.teamId,users.locationId,users.biog,users.startdate,teamname.teamname,location.locationname FROM users INNER JOIN teamname ON users.teamId=teamname.Id  INNER JOIN location On users.locationId=location.id WHERE `email`=%s
+     
+      SELECT users.name, feedback.feedbacktext FROM users INNER JOIN feedback ON users.id=nominatedId WHERE email=
+    FROM users
+    INNER JOIN teamname ON users.teamId=teamname.Id

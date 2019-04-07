@@ -15,10 +15,12 @@
   
       
    $('.slider').slider({
-    height: 700,
+    height: 300,
     indicators: false
     });
     
+      
+
   
    $(function() {
     $.ajax({
@@ -43,8 +45,7 @@
 
   });
 
-    
-  
+
 }); 
   
  

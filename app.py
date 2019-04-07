@@ -106,8 +106,36 @@ def home():
                  flash('sorry no badges')
         except: 
              flash('error')
-        
-        return render_template('home.html', page_title=page_title, profilepic=profilepic, badges=badges)
+        try:
+                 with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+                 
+                    
+                 
+                    sql=" SELECT  feedback.feedbacktext, feedback.nominatedId,feedback.nominatorId,feedback.fbdate FROM feedback WHERE nominatedId=%s"
+                    cursor.execute(sql,(userid))
+                    connection.commit()
+                    data=cursor.fetchall()
+                    tf=len(data)
+                    
+                   
+                  
+        except:
+                    flash('error')
+        try:
+                 with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+                    sql="SELECT users.name, users.profileImage,feedback.nominatorId FROM users INNER JOIN feedback ON feedback.nominatorId=users.id WHERE feedback.nominatedId=%s"
+                    cursor.execute(sql,(userid))
+                    connection.commit()
+                    pi=cursor.fetchall()
+                  
+                    
+                   
+                  
+        except:
+                    flash('error')
+       
+            
+        return render_template('home.html', page_title=page_title, profilepic=profilepic, badges=badges, tf=tf, pi=pi)
    
     
     return redirect('/')
@@ -422,6 +450,28 @@ def names():
                     flash('error')
                   
      return jsonify(names)
+     
+@app.route('/data')
+#json data for charts
+def data():
+    if g.user:
+     try:
+                 with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+                    email=g.user
+                    sql= "SELECT `id` FROM `users` WHERE `email`=%s"
+                    cursor.execute(sql,(email))
+                    cid = cursor.fetchone()
+                    myid=98
+                    sql=" SELECT  feedback.feedbacktext, feedback.nominatedId,feedback.nominatorId,feedback.fbdate FROM feedback WHERE nominatedId=%s"
+                    cursor.execute(sql,(myid))
+                    connection.commit()
+                    data=cursor.fetchall()
+                    totalfb=data.length
+                  
+     except:
+                    flash('error')
+                  
+     return jsonify(data)
 
 @app.route('/viewprofile')
 def view_profile():
@@ -443,7 +493,8 @@ def view_profile():
     
      return redirect('/')
     
-   
+
+
   
     
 if __name__=='__main__':

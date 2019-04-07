@@ -182,3 +182,14 @@ ul li a {
 .badge{
    margin-top: 40px;
 }
+
+.feedback_score{
+    text-align: center;
+    font-size: 60px;
+}
+
+.ppviewer{
+    
+   
+    height:150px;
+}
