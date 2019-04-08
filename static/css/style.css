@@ -1,12 +1,17 @@
+
+@import url('https://fonts.googleapis.com/css?family=Heebo');
+
+
 /*............. general bits..............   */
 body, html {
     height: 100%;
     background-color: #F8F8EC;
+    font-family: 'Heebo', sans-serif;;
 }
 
-h5 h1 h3{
+h5 h1{
     color:#778899;
-    font-weight: 600;
+    font-weight: bold;
 }
 @-ms-viewport{
   width: device-width;
@@ -194,4 +199,9 @@ ul li a {
     
    
     height:150px;
+}
+
+.font{
+   color: black;
+   background-color: grey;
 }
