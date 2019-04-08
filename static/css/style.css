@@ -4,8 +4,9 @@ body, html {
     background-color: #F8F8EC;
 }
 
-h5 h1{
+h5 h1 h3{
     color:#778899;
+    font-weight: 600;
 }
 @-ms-viewport{
   width: device-width;
@@ -185,7 +186,8 @@ ul li a {
 
 .feedback_score{
     text-align: center;
-    font-size: 60px;
+    font-size: 100px;
+   
 }
 
 .ppviewer{

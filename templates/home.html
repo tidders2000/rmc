@@ -14,35 +14,17 @@
 
 	
 
-	<div class="row col s12">
+	<div class="row ">
+	 <div class="col s12 m6 l4 offset-l2">
 	  <div class='center'>
 	<h1>Feedback Score</h1>
-           <span class="feedback_score">  {{tf}} </span>
-		
-		</div>
-	</div>
-	
-		<div class="row">
-		
-		<h1 class='center'>My Badges</h1>
-		 {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-         {% endwith %}  
-		<ul>
-		{% for badge in badges %}
-<span class='tooltipped' data-position="bottom" data-tooltip="{{badge.name}}">	<img src='static/images/badges/{{badge.badge}}'/></span>
-		{%endfor%}
-	</ul>
-	</div>
 
-<div class="center">
-  <h1>Feedback Givers</h1>
+           <span class="feedback_score">  {{tf}} </span>
+	
+		</div>
+		</div>
+		<div class="center col s12 m6 l4">
+  <h1>My Supporters</h1>
 <div class="slider">
     <ul class="slides">
       {% for p in pi %}
@@ -58,10 +40,32 @@
     
     </ul>
   </div>
-      
-  
 </div>
     
+		
+	</div>
+	
+		<div class="row">
+		
+		<h1 class='center'>My Badges</h1>
+		<div class="center">
+		 {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+         {% endwith %}  
+		<ul>
+		{% for badge in badges %}
+<span class='tooltipped' data-position="bottom" data-tooltip="{{badge.name}}">	<img src='static/images/badges/{{badge.badge}}'/></span>
+		{%endfor%}
+	</ul>
+	</div>
+</div>
+
 	
 	
 </div>
