@@ -6,12 +6,11 @@
      <meta charset="utf-8">
     <title></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
-   
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css" />
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+    <link rel="stylesheet" href="static/css/dc.min.css" type="text/css" />
+    
 </head>
 
 <body>
@@ -66,30 +65,17 @@
     
 
 
-  <!-- Modal Structure -->
-  <div id="modal1" class="modal col s12">
-    <div class="modal-content">
-      
-<img class="mySlides modalimg" src="static/images/help/welcome.PNG">
-<img class="mySlides" src="static/images/help/home2.PNG">
-<img class="mySlides" src="static/images/help/feedback.PNG">
-<img class="mySlides" src="static/images/help/buttons.PNG">
 
-<button class="w3-button w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
-<button class="w3-button w3-display-right" onclick="plusDivs(+1)">&#10095;</button>
-    </div>
-    <div class="modal-footer">
- 
-    </div>
-  </div>
 
      
     <!-- Compiled and minified JavaScript -->
        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
- 
-
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
        <script type="text/javascript" src="{{ url_for('static', filename='js/javascript.js') }}"></script>
+       <script type="text/javascript" src="static/js/d3.min.js"></script>
+        <script type="text/javascript" src="static/js/crossfilter.min.js"></script>
+        <script type="text/javascript" src="static/js/dc.min.js"></script>
+        <script type="text/javascript" src="static/js/queue.min.js"></script>
       
       
 </body>
