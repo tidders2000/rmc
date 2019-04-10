@@ -68,7 +68,7 @@ def login():
                 
        except:
               # Close the connection, regardless of whether or not the above was successful
-            connection.close()
+            
             flash("incorrect email or password")
           
  return render_template('index.html', form=form)
@@ -201,7 +201,7 @@ def signup():
        except:
               # Close the connection, regardless of whether or not the above was successful
             flash("An exception occurred")
-            connection.close()
+            
  return render_template('signup.html', form=form, page_title=page_title, teamname=teamname)
  
 
