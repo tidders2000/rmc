@@ -1,6 +1,7 @@
 import os
-from flask import Flask, render_template, redirect, request, url_for, request, flash, session, g, jsonify
 import pymysql
+from flask import Flask, render_template, redirect, request, url_for, request, flash, session, g, jsonify
+
 from datetime import datetime
 from config import Config
 from forms import LoginForm, SignUp
@@ -43,6 +44,7 @@ def login():
        session.pop('user', None)
        password=request.form['password']
        email=request.form['email']
+       
        
       # retrieves email and if does not returns to login 
        
@@ -457,16 +459,11 @@ def data():
     if g.user:
      try:
                  with connection.cursor(pymysql.cursors.DictCursor) as cursor:
-                    email=g.user
-                    sql= "SELECT `id` FROM `users` WHERE `email`=%s"
-                    cursor.execute(sql,(email))
-                    cid = cursor.fetchone()
-                    myid=98
-                    sql=" SELECT  feedback.feedbacktext, feedback.nominatedId,feedback.nominatorId,feedback.fbdate FROM feedback WHERE nominatedId=%s"
-                    cursor.execute(sql,(myid))
+                    sql="SELECT * FROM feedback"
+                    cursor.execute(sql)
                     connection.commit()
                     data=cursor.fetchall()
-                    totalfb=data.length
+                   
                   
      except:
                     flash('error')

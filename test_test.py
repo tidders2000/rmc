@@ -1,14 +1,11 @@
+import unittest
+from flask import Flask
 from app import app
 
-import unittest
-
-
-
+#ensure that index loads
 class crowdtest(unittest.TestCase):
-	def test_something(self):
+	def test_index(self):
 		tester= app.test_client(self)
 		response = tester.get('/', content_type='html/text')
 		self.assertEqual(response.status_code, 200)
-
-if __name__ == '__main__':
-	unittest.main()
+#ensure that index load
