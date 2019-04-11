@@ -369,7 +369,8 @@ def myprofile():
                   password=request.form['password']
                   if password!=result[0]['password']:
                    password=generate_password_hash(request.form['password'])  
-                 
+                  if date=="":
+                      date=result[0]['startdate']
                
                   try:
                       with connection.cursor(pymysql.cursors.DictCursor) as cursor: 
