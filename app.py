@@ -26,11 +26,14 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 mail = Mail(app)
 # Connect to the database.........................
+
 username = os.getenv('C9_USER')
 connection = pymysql.connect(host='localhost',
                              user=username,
                              password='',
                              db='crowd')
+
+
 #login form................................
 
 @app.route('/', methods=['GET','POST'])

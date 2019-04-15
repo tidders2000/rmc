@@ -223,7 +223,7 @@ In addition, if it is not obvious, you should also describe how to run your code
 
 Alot of general advice and tips came from Miguels mega flask tutorial.
 
-Abduls code really helped with the name suggesting - http://abdulbaqi.io/2017/11/26/flask-form-
+Abduls code really helmysql -u USERNAME -p -h RDS-ENDPOINT -D wordpress < backup.sqlped with the name suggesting - http://abdulbaqi.io/2017/11/26/flask-form-
 
 ajax-sqlalchemy/ also this article https://stackoverflow.com/questions/39883425/materialize-
 
