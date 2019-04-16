@@ -28,7 +28,7 @@ mail = Mail(app)
 # Connect to the database.........................
 
 username = os.getenv('C9_USER')
-connection = pymysql.connect(host='ratemycrowd.cthc6zmgabsd.us-east-1.rds.amazonaws.com',
+connection = pymysql.connect(host=os.environ['HOST_NAME'],
                              user='tidders2000',
                              password='Croxton69!',
                              db='tidders2000'
