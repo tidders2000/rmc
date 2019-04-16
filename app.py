@@ -29,9 +29,9 @@ mail = Mail(app)
 
 username = os.getenv('C9_USER')
 connection = pymysql.connect(host=os.environ['HOST_NAME'],
-                             user='tidders2000',
-                             password='Croxton69!',
-                             db='tidders2000'
+                             user=os.environ['DB_USERNAME'],
+                             password=os.environ['DB_PASSWORD'],
+                             db=os.environ['DB_DB']
                             )
 
 #login form................................
