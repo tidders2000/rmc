@@ -28,10 +28,10 @@ mail = Mail(app)
 # Connect to the database.........................
 
 username = os.getenv('C9_USER')
-connection = pymysql.connect(host='us-cdbr-iron-east-02.cleardb.net/heroku_b4952379a8814cd?',
-                             user='b7c6885c03bfef',
-                             password='2c2e6dab',
-                             db='heroku_b4952379a8814cd'
+connection = pymysql.connect(host='ratemycrowd.cthc6zmgabsd.us-east-1.rds.amazonaws.com',
+                             user='tidders2000',
+                             password='Croxton69!',
+                             db='tidders2000'
                             )
 
 #login form................................
