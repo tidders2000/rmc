@@ -8,7 +8,7 @@ app = Flask(__name__)
 class Config(object):
     SECRET_KEY = os.getenv("SECRET_KEY") 
     
-
+# code copied from M Herman, only used for testing so commented out
 
 #class BaseConfig(object):
   #  DEBUG = False

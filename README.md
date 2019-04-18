@@ -62,9 +62,9 @@ never meet
 
 - Able to easily read feedback written about me
 
-###Wire Frames
+### Wire Frames
 
-links to be added
+https://xd.adobe.com/spec/20ec3011-c4ce-405d-595c-a13f4d6c9e69-56dd
 
 
 
@@ -131,6 +131,8 @@ drop down list for the user to select
 
 -Add pagination to the feedback page
 
+-tidy up password change so not showing salted stars
+
 - Add badge names
 
 - At an organisational level it would be useful to analyse feedback trends. A wider dashboard would 
@@ -162,61 +164,60 @@ The project uses JQuery to simplify DOM manipulation.
 
 -pymysql for using mysql in flask
 
-- AWS for hosting and production database
+- AWS RDS for production database
 
 - w3css "https://www.w3schools.com/w3css/4/w3.css" for the slider
-- 
+
+
 ## Testing
-In this section, you need to convince the assessor that you have conducted enough testing to 
 
-legitimately believe that the site works well. Essentially, in this part you will want to go over 
 
-all of your user stories from the UX section and ensure that they all work as intended, with the 
+Unittest was used to test flask routes.
 
-project providing an easy and straightforward way for the users to achieve their goals.
+Selenium was used for further automated testing. The following tests were run
 
-Whenever it is feasible, prefer to automate your tests, and if you've done so, provide a brief 
+-Logon with correct details and get personalised home screen
 
-explanation of your approach, link to the test file(s) and explain how to run them.
+-Logon with incorrect password/email get flash message
 
-For any scenarios that have not been automated, test the user stories manually and provide as much 
+-Registering user with email already in the DB. Email needs converting to lowercase to ensure  consistency in db and for further forms that query using e mail - not fixed yet
 
-detail as is relevant. A particularly useful form for describing your testing process is via 
+-Changing user details under profile- This showed a bug of password/start date being set with blank 
+ values. Code was adjusted to compensate
 
-scenarios, such as:
 
-Contact form:
-Go to the "Contact Us" page
-Try to submit the empty form and verify that an error message about the required fields appears
-Try to submit the form with an invalid email address and verify that a relevant error message 
+-Adding Feedback to a given user and receiving flash message, showed incorrect formatting corrected
 
-appears
-Try to submit the form with all inputs valid and verify that a success message appears.
-In addition, you should mention in this section how your project looks and works on different 
+-Checking feedback displays in feedback view and tool tips display users
 
-browsers and screen sizes.
+-Adding and viewing badges and flash message correct and toolstips display users
 
-You should also mention in this section any interesting bugs or problems you discovered during your 
+-Checked that session works and pages cannot be accessed without session token
 
-testing, even if you haven't addressed them yet.
+-Names being listed in dropdown on autotype
+-loggin out
+-Changing a profile picture and testing the allowed image types
 
-If this section grows too long, you may want to split it off into a separate file and link to it 
+- help displays when clicked
 
-from here.
+
+I found during testing very occasionally I would get a 500 error. I could not find a way to duplicate this and have not solved it. I think if the app was launched comercially some load testing would be required as this is what I put it down to. I was on a slow connection at the time as well.
+
+I have not added any backway compatability for old browsers
+
+On checking responsiveness on mobile devices I have noticed profile images on the contacts page do not scale correctly, htis has not yet been fixed
+
+Most testing was done at the end and functionality would be tested manually as I went. However after
+completing this project I can now see the need for developing tests as I go to ensure functinoality is not disrupted via development
+
 
 ## Deployment
-This section should describe the process you went through to deploy the project to a hosting 
 
-platform (e.g. GitHub Pages or Heroku).
+Deployed to heroku. DB moved across to RDS from cloud dev env. DB is set up on aws rds. A number of values are
+stored in env variables and these had to be changed for deployment. There are four test users set up in the database
+all users follow the same format email: testuserxxx@email.com (xxx = one,two etc) and all have the password, password. Users
+can register as new users but this functionality will be protected after project marking
 
-In particular, you should provide all details of the differences between the deployed version and 
-
-the development version, if any, including:
-
-Different values for environment variables (Heroku Config Vars)?
-Different configuration files?
-Separate git branch?
-In addition, if it is not obvious, you should also describe how to run your code locally.
 
 ## Credits
 
@@ -243,3 +244,6 @@ Stack overflow for lots of general posts that put together solved many problems
 
 W3C for code to create a slider
 
+Micheal at code institute for his help in solving the config bug
+
+Micheal Herman discover flask testing (you tube) for test code and videos

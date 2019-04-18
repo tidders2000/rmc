@@ -14,6 +14,7 @@ UPLOAD_FOLDER = 'static/images/profile'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 app = Flask(__name__)
+# mail code taken from tutorial and adapted for my use case
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USERNAME'] = os.environ['MAIL_USERNAME']
