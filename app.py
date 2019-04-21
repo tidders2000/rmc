@@ -29,10 +29,10 @@ mail = Mail(app)
 # Connect to the database.........................
 
 username = os.getenv('C9_USER')
-connection = pymysql.connect(host=os.environ['HOST_NAME'],
-                             user=os.environ['DB_USERNAME'],
-                             password=os.environ['DB_PASSWORD'],
-                             db=os.environ['DB_DB']
+connection = pymysql.connect(host='us-cdbr-iron-east-02.cleardb.net',
+                             user='b7c6885c03bfef',
+                             password='2c2e6dab',
+                             db='heroku_b4952379a8814cd'
                             )
 
 #login form................................
@@ -71,8 +71,7 @@ def login():
              return redirect('home')
                 
        except:
-              # Close the connection, regardless of whether or not the above was successful
-            
+             
             flash("incorrect email or password")
           
  return render_template('index.html', form=form)
@@ -111,6 +110,7 @@ def home():
              if not badges:
                  flash('sorry no badges')
         except: 
+            
              flash('error')
         try:
                  with connection.cursor(pymysql.cursors.DictCursor) as cursor:
@@ -138,6 +138,7 @@ def home():
                    
                   
         except:
+                    connection.close()
                     flash('error')
        
             
@@ -165,10 +166,13 @@ def signup():
              sql= "SELECT * FROM teamname;"
              cursor.execute(sql)
              teamname = cursor.fetchall()
+          
              
- except: flash('error')
+ except: return redirect('/') 
+ flash('database busy')     
+ connection.close()          
  
-              
+                
 
  
  if request.method == 'POST' and form.validate_on_submit():
@@ -203,7 +207,7 @@ def signup():
                     session['user'] = request.form['email']
                     return redirect('/mail')
        except:
-              # Close the connection, regardless of whether or not the above was successful
+        
             flash("An exception occurred")
             
  return render_template('signup.html', form=form, page_title=page_title, teamname=teamname)
@@ -244,6 +248,7 @@ def feedback():
                  flash('sorry no feedback')
         except: 
              flash('error')
+             connection.close()
         return render_template("feedback.html", page_title=page_title, profilepic=profilepic, feedback=feedback)
     return redirect('/')
     
@@ -288,7 +293,8 @@ def add_feedback():
                       cursor.execute(sql,(nominatorId[0],feedback_title,team,feedback_text,nominatedid, fbdate))
                       flash("feedback added")
              except:
-                 flash("oopps")
+                 flash("Sorry data save unsuccessful")
+               
         return render_template("add_feedback.html", page_title=page_title, teamname=teamname, profilepic=profilepic)
     return redirect('/')
 
@@ -328,7 +334,7 @@ def badges():
                       flash("Badge added")
              except:
                  flash("oopps")
-              
+                
              
         
         return render_template("badges.html", page_title=page_title, teamname=teamname, profilepic=profilepic)
@@ -385,7 +391,7 @@ def myprofile():
                           return redirect('myprofile')
                   except:
                         flash('unable to change data')
-              
+                     
                   
         return render_template("myprofile.html", page_title=page_title, result=result,teamname=teamname, profilepic=profilepic)
         
@@ -436,7 +442,7 @@ def upload_file():
                   
             except:
                 flash('error loading pic')
-                
+               
                 
                 
                 
@@ -446,18 +452,22 @@ def upload_file():
 @app.route('/names')
 #recover users for dropdown list used on forms for user names
 def names():
+    if g.user:
      try:
                  with connection.cursor(pymysql.cursors.DictCursor) as cursor:
                     sql="SELECT name FROM users"
                     cursor.execute(sql)
                     connection.commit()
                     names=cursor.fetchall()
-                  
+                    return jsonify(names)
+     
      except:
                     flash('error')
-                  
-     return jsonify(names)
-     
+                    
+    else:
+        return('/')
+         
+   
 @app.route('/data')
 #json data for charts
 def data():
@@ -491,6 +501,7 @@ def view_profile():
                   
         except:
                     flash('error')
+                    connection.close()
         return  render_template('viewprofile.html', result=result, profilepic=profilepic) 
     
      return redirect('/')
