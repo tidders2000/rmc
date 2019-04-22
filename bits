@@ -6,3 +6,5 @@ connection = pymysql.connect(host=os.environ['HOST_NAME'],
                              db=os.environ['DB_DB']
                             )
 mysql -u b7c6885c03bfef -h us-cdbr-iron-east-02.cleardb.net -p heroku_b4952379a8814
+
+web: python app.py
