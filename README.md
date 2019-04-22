@@ -164,9 +164,12 @@ The project uses JQuery to simplify DOM manipulation.
 
 -pymysql for using mysql in flask
 
-- AWS RDS for production database
+
 
 - w3css "https://www.w3schools.com/w3css/4/w3.css" for the slider
+- Amazon RDS to host the production DB
+- Clearsql for some testing with the db
+- Gunicorn for production web server
 
 
 ## Testing
@@ -201,7 +204,11 @@ Selenium was used for further automated testing. The following tests were run
 - help displays when clicked
 
 
-I found during testing very occasionally I would get a 500 error. I could not find a way to duplicate this and have not solved it. I think if the app was launched comercially some load testing would be required as this is what I put it down to. I was on a slow connection at the time as well.
+I found during testing very occasionally I would get a 500 error. This had no particular pattern to it.
+As i have not done any load testing I have put this down to the flask web server. I have now upgraded to
+Gunicorn and performance seems to off improved.
+
+
 
 I have not added any backway compatability for old browsers
 
