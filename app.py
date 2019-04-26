@@ -503,7 +503,7 @@ def view_profile():
         except:
                     flash('error')
                     connection.close()
-        return  render_template('viewprofile.html', result=result, profilepic=profilepic) 
+        return  render_template('viewprofile.html', result=result, profilepic=profilepic, page_title=page_title) 
     
      return redirect('/')
     
