@@ -6,6 +6,7 @@
   <div class="row buffer">
     <div class="col s12">
       <form class="col s12" action="" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
         <div class="row">
           <div class="input-field col s12">
 

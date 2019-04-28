@@ -4,6 +4,7 @@
   <div class="row buffer">
     <div class="row">
       <form class="col s12" method="POST" action="">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
         {% for res in result %}
         <div class="row">
           <input type="hidden" id="id" name="id" value="{{res.id}}">

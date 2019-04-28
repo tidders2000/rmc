@@ -21,6 +21,7 @@
         <div class="row">
           <form class="col s12 " action="" method="POST">
             {{ form.hidden_tag() }}
+             {{ form.csrf_token }}
             <div class="row">
               <div class="input-field signin col s12 center-align ">
                 {{ form.fullname.label }}<br> {{ form.fullname(size=60) }}

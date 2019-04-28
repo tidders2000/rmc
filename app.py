@@ -1,7 +1,7 @@
 import os
 import pymysql
 from flask import Flask, render_template, redirect, request, url_for, request, flash, session, g, jsonify
-
+from flask_wtf.csrf import CSRFProtect
 from datetime import datetime
 from config import Config
 from forms import LoginForm, SignUp
@@ -26,6 +26,7 @@ app.config.from_object(Config)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 mail = Mail(app)
+csrf = CSRFProtect(app)
 # Connect to the database.........................
 
 username = os.getenv('C9_USER')
@@ -35,7 +36,7 @@ connection = pymysql.connect(host=os.environ['HOST_NAME'],
                              db=os.environ['DB_DB']
                             )
 
-#login form................................
+#login form........................................................
 
 @app.route('/', methods=['GET','POST'])
 def login():
@@ -77,7 +78,7 @@ def login():
  return render_template('index.html', form=form)
     
     
-#users home screen after signin ...................   
+#users home screen after signin ...............................................
 @app.route('/home')
 
 def home():
@@ -85,6 +86,7 @@ def home():
     if g.user:
         page_title = 'Home'
         email=g.user
+        # fetchs profile picture
         try:
             with connection.cursor() as cursor:
                 sql= "SELECT `profileImage` FROM `users` WHERE `email`=%s"
@@ -92,10 +94,10 @@ def home():
                 session['image'] = cursor.fetchone()
                 profilepic=session['image'][0]
                 
-                
-                
         except:
              flash('error')
+        
+        #fetchs user id using session email and then gets badges
         try:
          with connection.cursor(pymysql.cursors.DictCursor) as cursor:
              sql= "SELECT id FROM users WHERE email=%s;"
@@ -112,6 +114,7 @@ def home():
         except: 
             
              flash('error')
+        # fetchs feedback to display total on home page
         try:
                  with connection.cursor(pymysql.cursors.DictCursor) as cursor:
                  
@@ -123,7 +126,7 @@ def home():
                     data=cursor.fetchall()
                     tf=len(data)
                     
-                   
+         # fetchs profile pics of feedback givers to display home page          
                   
         except:
                     flash('error')
@@ -134,9 +137,6 @@ def home():
                     connection.commit()
                     pi=cursor.fetchall()
                   
-                    
-                   
-                  
         except:
                     connection.close()
                     flash('error')
@@ -146,16 +146,18 @@ def home():
    
     
     return redirect('/')
-    
+# checks session before loading pages   
 @app.before_request
 def before_request():
     g.user = None
     if 'user' in session:
         g.user = session['user']
+
+#...Sign up.................................................
     
 @app.route('/signup', methods=['GET', 'POST'])
 
-#sign up users to the db.................................
+#sign up users to the db
 def signup():
 #adds page title and form
  page_title = "Sign Up"    
@@ -168,13 +170,10 @@ def signup():
              teamname = cursor.fetchall()
           
              
- except: return redirect('/') 
- flash('database busy')     
- connection.close()          
- 
-                
-
- 
+ except: 
+     flash('database busy plesae try later')
+     return redirect('/') 
+         
  if request.method == 'POST' and form.validate_on_submit():
        
        fullname=request.form['fullname']
@@ -191,12 +190,12 @@ def signup():
             cursor.execute(sql,(email))
             result = cursor.fetchall()
             
-  #checks email is not already in use         
+#checks email is not already in use         
             
             if len(result)!=0:
                 flash('already registered')
                 return redirect('signup')
-         # add user to db   
+# add user to db   
             
             else:
                 with connection.cursor() as cursor:
@@ -212,22 +211,27 @@ def signup():
             
  return render_template('signup.html', form=form, page_title=page_title, teamname=teamname)
  
-
+# send a confirmation e mail when users register...............................................
 @app.route("/mail")
 def index():
    msg = Message('Hello', sender = 'tidders2000@gmail.com', recipients = [session['user']])
    msg.body = "user sucessfully created for rate my crowd.com"
    mail.send(msg)
-   flash('user created')
+   flash('confirmation email sent')
    session.pop('user', None)
    return redirect('/')
    
+
+#logsout user and kills session.......................................................
+
 @app.route("/logout")
 def logout():
     session.pop('user', None)
     print('logged out')
     return redirect('/')
     
+
+#allos users to view feedback given by their colleauges...................................
 @app.route("/feedback")
 def feedback():
     if g.user:
@@ -235,6 +239,7 @@ def feedback():
         profilepic=session['image'][0]
         email=session['user']
         try:
+        # selects user id from email then fetchs feedback
          with connection.cursor(pymysql.cursors.DictCursor) as cursor:
              sql= "SELECT id FROM users WHERE email=%s;"
              cursor.execute(sql,(email))
@@ -252,7 +257,7 @@ def feedback():
         return render_template("feedback.html", page_title=page_title, profilepic=profilepic, feedback=feedback)
     return redirect('/')
     
-    
+# allows users to create feedback for their colleauges..........................................    
 @app.route("/add_feedback", methods=['POST','GET'])
 def add_feedback():
     if g.user:
@@ -298,13 +303,13 @@ def add_feedback():
         return render_template("add_feedback.html", page_title=page_title, teamname=teamname, profilepic=profilepic)
     return redirect('/')
 
-  
+#allows users to add badges as rewards for colleauges....................................... 
 @app.route("/badges", methods=['POST','GET'])
 def badges():
     if g.user:
         page_title="Badges"
         profilepic=session['image'][0]
-        
+#find teamnames for dropdown
         try:
          with connection.cursor(pymysql.cursors.DictCursor) as cursor:
              sql= "SELECT * FROM teamname;"
@@ -318,6 +323,7 @@ def badges():
              team=request.form['teamie'] 
              badge=request.form['badge']
              email=session['user']
+#finds users id and id for person nominated for a badge             
              try:
                  with connection.cursor() as cursor:
                       sql= "SELECT `id` FROM `users` WHERE `email`=%s"
@@ -334,14 +340,14 @@ def badges():
                       cursor.execute(sql,(badgenomId,badge,badgegiver))
                       flash("Badge added")
              except:
-                 flash("oopps")
+                 flash("oopps sorry please try again")
                 
              
         
         return render_template("badges.html", page_title=page_title, teamname=teamname, profilepic=profilepic)
     return redirect('/')
     
-
+#allows a user to change their profile information...................................
     
 @app.route("/myprofile", methods=['GET', 'POST'])
 def myprofile():
@@ -349,17 +355,12 @@ def myprofile():
         page_title="My Profile"
         profilepic=session['image'][0]
         email=session['user']
-        
+        # retrieve users profile information
         try:
          with connection.cursor(pymysql.cursors.DictCursor) as cursor:
             sql= "SELECT users.name,users.id,users.password,users.biog, users.startdate,users.teamId,users.locationId,teamname.teamname,location.locationname FROM users INNER JOIN teamname ON users.teamId=teamname.id INNER JOIN location ON users.locationId=location.id WHERE `email`=%s"
             cursor.execute(sql,(email))
             result = cursor.fetchall()
-           
-           
-                
-            
-            
             sql= "SELECT * FROM location;"
             cursor.execute(sql)
             location = cursor.fetchall()
@@ -369,7 +370,7 @@ def myprofile():
            
         except:
             flash('error')
-        
+        #add changed details with if statements to manage blanks and not erase data
         if request.method == 'POST':
                   fullname=request.form['fullname']
                   date=request.form['startdate']
@@ -401,7 +402,7 @@ def myprofile():
             
     return redirect('/')
     
-
+#help........................................................................................
     
 @app.route("/help")
 def help():
@@ -411,10 +412,12 @@ def help():
         return render_template("help.html", page_title=page_title, profilepic=profilepic)  
     return redirect('/')
     
+# allowed filenames for profile upload
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS  
            
+#allows user to change profile picture this is not my code but lifted of a forum........................................
 @app.route('/ppupload', methods=['GET', 'POST'])
 def upload_file():
     profilepic=session['image'][0]
@@ -449,7 +452,7 @@ def upload_file():
                 
             return redirect('home')   
     return render_template('ppupload.html', profilepic=profilepic)
-
+# selects names data and converts to json for auto complete form on names...................
 @app.route('/names')
 #recover users for dropdown list used on forms for user names
 def names():
@@ -468,7 +471,7 @@ def names():
     else:
         return('/')
          
-   
+ #currently not in use but gets feedback data for reports............................... 
 @app.route('/data')
 #json data for charts
 def data():
@@ -485,7 +488,7 @@ def data():
                     flash('error')
                   
      return jsonify(data)
-
+#allows users to view the profiles of all their colleauges..............................
 @app.route('/viewprofile')
 def view_profile():
   # check session and add title/profile image   
