@@ -223,8 +223,8 @@ completing this project I can now see the need for developing tests as I go to e
 Deployed to heroku. DB moved across to RDS from cloud dev env. DB is set up on aws rds. A number of values are
 stored in env variables and these had to be changed for deployment. There are four test users set up in the database
 all users follow the same format email: testuserxxx@email.com (xxx = one,two etc) and all have the password, password. Users
-can register as new users but this functionality will be protected after project marking
-
+can register as new users but this functionality will be protected after project marking. The email confirmation functionality
+does not work on heroku so this has been disabled for now. In the next buildphase I will use boto and amazon ses
 
 ## Credits
 

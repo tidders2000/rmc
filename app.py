@@ -214,10 +214,10 @@ def signup():
 # send a confirmation e mail when users register...............................................
 @app.route("/mail")
 def index():
-   msg = Message('Hello', sender = 'tidders2000@gmail.com', recipients = [session['user']])
-   msg.body = "user sucessfully created for rate my crowd.com"
-   mail.send(msg)
-   flash('confirmation email sent')
+   #msg = Message('Hello', sender = 'tidders2000@gmail.com', recipients = [session['user']])
+   #msg.body = "user sucessfully created for rate my crowd.com"
+   #mail.send(msg)
+   #flash('confirmation email sent')
    session.pop('user', None)
    return redirect('/')
    
